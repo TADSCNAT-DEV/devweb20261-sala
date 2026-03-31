@@ -19,3 +19,25 @@ def calcular_imc(request,altura,peso):
     imc=peso/(altura*altura)
     response=f'Calculo do IMC: {imc}'
     return HttpResponse(response)
+
+def calcular(request):
+    altura = float(request.GET.get('altura'))
+    peso = float(request.GET.get('peso'))
+    altura = altura / 100
+    imc = peso / (altura * altura)
+    if imc < 18.5:
+        classificacao = 'Abaixo do peso'
+    elif imc < 24.9:
+        classificacao = 'Peso normal'
+    elif imc < 29.9:
+        classificacao = 'Sobrepeso'
+    else:
+        classificacao = 'Obesidade'
+    contexto={
+        'altura':altura,
+        'peso':peso,
+        'imc_2': f'{imc:.2f}',
+        'classificacao': classificacao
+    }
+    return render(request,'resultado.html',contexto)
+    
