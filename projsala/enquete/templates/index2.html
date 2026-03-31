@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enquete</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <div class="box">
+        <h1 class="title is-4">{{ questao }}</h1>
+        <form action="">
+       
+          <div class="field">
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="alternativa" value="1">
+                {{ alternativa1 }}
+              </label>
+            </div>
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="alternativa" value="2">
+                {{ alternativa2 }}
+              </label>
+            </div>
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="alternativa" value="3">
+                {{ alternativa3 }}
+              </label>
+            </div>
+            <div class="control">
+              <label class="radio">
+                <input type="radio" name="alternativa" value="4">
+                {{ alternativa4 }}
+              </label>
+            </div>
+          </div>
+          <div class="field mt-4">
+            <div class="control">
+              <button class="button is-primary" type="submit">Votar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
