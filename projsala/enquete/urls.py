@@ -5,4 +5,5 @@ app_name = 'enquete'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('votar/', views.votar, name='votar'),
 ]

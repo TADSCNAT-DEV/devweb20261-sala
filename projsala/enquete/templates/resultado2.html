@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Resultado da Enquete</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+</head>
+<body>
+	<section class="section">
+		<div class="container">
+			<div class="columns is-centered">
+				<div class="column is-8-desktop is-10-tablet">
+					<div class="box">
+						<h1 class="title is-4">Resultado da Enquete</h1>
+						<p class="subtitle is-6">Qual é a sua linguagem de programação favorita?</p>
+
+						<table class="table is-fullwidth is-striped is-hoverable">
+							<thead>
+								<tr>
+									<th>Alternativa</th>
+									<th>Votos</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>{{ alternativa1 }}</td>
+									<td>{{ total1 }}</td>
+								</tr>
+								<tr>
+									<td>{{ alternativa2 }}</td>
+									<td>{{ total2 }}</td>
+								</tr>
+								<tr>
+									<td>{{ alternativa3 }}</td>
+									<td>{{ total3 }}</td>
+								</tr>
+								<tr>
+									<td>{{ alternativa4 }}</td>
+									<td>{{ total4 }}</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<div class="content">
+							<p class="mb-2"><strong>{{ alternativa1 }}</strong></p>
+							<progress class="progress is-danger" value="{{ total1 }}" max="{{ total_votos }}">{{ total1 }}</progress>
+
+							<p class="mb-2"><strong>{{ alternativa2 }}</strong></p>
+							<progress class="progress is-primary" value="{{ total2 }}" max="{{ total_votos }}">{{ total2 }}</progress>
+
+							<p class="mb-2"><strong>{{ alternativa3 }}</strong></p>
+							<progress class="progress is-info" value="{{ total3 }}" max="{{ total_votos }}">{{ total3 }}</progress>
+
+							<p class="mb-2"><strong>{{ alternativa4 }}</strong></p>
+							<progress class="progress is-warning" value="{{ total4 }}" max="{{ total_votos }}">{{ total4 }}</progress>
+						</div>
+
+						<div class="level mt-5">
+							<div class="level-left">
+								<div class="level-item">
+									<p class="has-text-weight-semibold">
+										Total de votos: {{ total_votos }}
+									</p>
+								</div>
+							</div>
+							<div class="level-right">
+								<div class="level-item">
+									<a href="/enquete/" class="button is-light">Voltar</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
