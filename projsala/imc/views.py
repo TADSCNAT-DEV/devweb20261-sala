@@ -21,8 +21,10 @@ def calcular_imc(request,altura,peso):
     return HttpResponse(response)
 
 def calcular(request):
-    altura = float(request.GET.get('altura'))
-    peso = float(request.GET.get('peso'))
+    if request.method == 'GET':
+        return render(request,'erro.html')
+    altura = float(request.POST.get('altura'))
+    peso = float(request.POST.get('peso'))
     altura = altura / 100
     imc = peso / (altura * altura)
     if imc < 18.5:
