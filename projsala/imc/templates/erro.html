@@ -26,9 +26,14 @@
                     <h2 class="subtitle is-4">Oops! Algo deu errado</h2>
 
                     <div class="content has-text-justified mb-5">
-                        <p>
-                            Desculpe, ocorreu um erro inesperado. Nossa equipe foi notificada e está trabalhando para resolver o problema.
-                        </p>
+                        {% if mensagem %}
+                           <div class="notification is-warning">
+                                <button class="delete"></button>
+                                {{ mensagem }}
+                           </div>
+                        {% else %}
+                            <p>Ocorreu um erro inesperado. Por favor, tente novamente.</p>
+                        {% endif %}
                     </div>
 
                     <div class="buttons is-centered">

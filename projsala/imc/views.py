@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from imc.services import IMCService
 # Create your views here.​
 def index(request):
     return render(request,'index.html')
@@ -25,21 +26,16 @@ def calcular(request):
         return render(request,'erro.html')
     altura = float(request.POST.get('altura'))
     peso = float(request.POST.get('peso'))
-    altura = altura / 100
-    imc = peso / (altura * altura)
-    if imc < 18.5:
-        classificacao = 'Abaixo do peso'
-    elif imc < 24.9:
-        classificacao = 'Peso normal'
-    elif imc < 29.9:
-        classificacao = 'Sobrepeso'
-    else:
-        classificacao = 'Obesidade'
+    try:
+        resultado = IMCService.calcular_imc(altura, peso)
+    except ValueError as e:
+        mensagem=str(e)
+        contexto={'mensagem':mensagem}
+        return render(request,'erro.html',contexto)
     contexto={
         'altura':altura,
         'peso':peso,
-        'imc_2': f'{imc:.2f}',
-        'classificacao': classificacao
+        'resultado':resultado,
     }
     return render(request,'resultado.html',contexto)
     
