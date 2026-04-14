@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+{% load static %}
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Enquete</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+  <link rel="stylesheet" href="{% static 'enquete/css/style.css' %}">
+  <script src="{% static 'enquete/js/msg.js' %}"></script>
 </head>
 <body>
   <section class="section">
     <div class="container">
       <div class="box">
         <h1 class="title is-4">{{ questao }}</h1>
+        <figure class="image is-16x16">
+          <img class="is-rounded"  src="{% static 'enquete/imgs/questao.avif' %}" />
+        </figure>
         <form action="/enquete/votar/" >
        
           <div class="field">
@@ -41,7 +47,7 @@
           </div>
           <div class="field mt-4">
             <div class="control">
-              <button class="button is-primary" type="submit">Votar</button>
+              <button class="button is-primary" type="submit" onclick="showMessage('Voto Registrado com Sucesso!');">Votar</button>
             </div>
           </div>
         </form>

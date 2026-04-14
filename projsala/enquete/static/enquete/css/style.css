@@ -1,0 +1,6 @@
+.table {
+    --bulma-table-row-hover-background-color: var(--bulma-primary)
+}
+.is-rounded {
+    border: 1px solid #dbdbdb;
+}
