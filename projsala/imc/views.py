@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from imc.services import IMCService
+import json
+from django.template.loader import render_to_string
 # Create your views here.​
 def index(request):
     return render(request,'index.html')
@@ -24,18 +26,21 @@ def calcular_imc(request,altura,peso):
 def calcular(request):
     if request.method == 'GET':
         return render(request,'erro.html')
-    altura = float(request.POST.get('altura'))
-    peso = float(request.POST.get('peso'))
+    #altura = float(request.POST.get('altura'))
+    #peso = float(request.POST.get('peso'))
+    dados=json.loads(request.body)
+    altura = float(dados.get('altura'))
+    peso = float(dados.get('peso'))
     try:
         resultado = IMCService.calcular_imc(altura, peso)
     except ValueError as e:
         mensagem=str(e)
-        contexto={'mensagem':mensagem}
-        return render(request,'erro.html',contexto)
+        return HttpResponse(mensagem, status=400)
     contexto={
         'altura':altura,
         'peso':peso,
         'resultado':resultado,
     }
-    return render(request,'resultado.html',contexto)
+    html=render_to_string('resultado.html',contexto)
+    return HttpResponse(html)
     
