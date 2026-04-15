@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from imc.services import IMCService
+import time
 # Create your views here.​
 def index(request):
     return render(request,'index.html')
@@ -26,6 +27,7 @@ def calcular(request):
         return render(request,'erro.html')
     altura = float(request.POST.get('altura'))
     peso = float(request.POST.get('peso'))
+    time.sleep(2)  # Simula um processamento demorado
     try:
         resultado = IMCService.calcular_imc(altura, peso)
     except ValueError as e:

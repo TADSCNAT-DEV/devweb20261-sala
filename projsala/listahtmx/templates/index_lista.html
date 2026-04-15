@@ -23,6 +23,9 @@
             </form>
             
             <div id="resultado">
+                {% if not request.htmx %}
+                    {% include 'lista.html' %}
+                {% endif %}
 
             </div>
             
