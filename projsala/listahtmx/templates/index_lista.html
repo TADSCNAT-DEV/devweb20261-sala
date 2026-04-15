@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca de Alunos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"></script>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Busca de Alunos</h1>
+            <form method="get" action="">
+                <div class="field has-addons">
+                    <div class="control is-expanded">
+                        <input class="input" type="text" name="q" value="{{ q }}" placeholder="Buscar por nome ou curso..." hx-get="{% url 'listahtmx:buscar' %}" hx-target="#resultado" hx-swap="innerHTML" hx-trigger="keyup changed delay:300ms">
+                    </div>
+                    <div class="control">
+                        <button type="submit" class="button is-link">Buscar</button>
+                    </div>
+                </div>
+            </form>
+            
+            <div id="resultado">
+
+            </div>
+            
+        </div>
+    </section>
+</body>
+</html>

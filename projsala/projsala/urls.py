@@ -22,4 +22,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("",include("imc.urls")),
     path("enquete/",include("enquete.urls")),
+    path("lista/",include("listahtmx.urls")),
 ]

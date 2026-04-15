@@ -37,5 +37,7 @@ def calcular(request):
         'peso':peso,
         'resultado':resultado,
     }
+    if request.htmx:
+        return render(request,'partials/resultado.html',contexto)
     return render(request,'resultado.html',contexto)
     
