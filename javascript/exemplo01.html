@@ -4,8 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exemplo Javascript</title>
+    <script src="script.js"></script>
 </head>
 <body>
+    <label for="conteudo">Texto:</label>
+    <div>
+        <input type="text" id="conteudo">
+        <button id="botao" onclick="adicionarTexto();">Adicionar</button>
+    </div>
     <ul id="cursos"></ul>
     <script>
         const somar = (a,b) =>{
@@ -14,16 +20,12 @@
         function calculadora(s,x,y){
             return s(x,y);
         }
-        const cursos=['Django','JavaScript','CSS'];
-        const lista=document.getElementById("cursos")
-        for (let indice=0;indice<cursos.length;indice++){
-            let li=document.createElement("li");
-            li.innerText=cursos[indice];
-            lista.appendChild(li);
-        }
+        
         let a=2;
         let b=2;
-        window.alert(calculadora(somar,a,b));
+        //document.getElementById("botao").addEventListener("click",adicionarTexto);
+        //window.alert(calculadora(somar,a,b));
     </script>
 </body>
+
 </html>
