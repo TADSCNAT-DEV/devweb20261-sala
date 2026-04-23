@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from imc.services import IMCService
 # Create your views here.​
 def index(request):
@@ -38,4 +38,7 @@ def calcular(request):
         'resultado':resultado,
     }
     return render(request,'resultado.html',contexto)
+
+def mensagem(request):
+    return JsonResponse({'texto':'Olá do Servidor'})
     

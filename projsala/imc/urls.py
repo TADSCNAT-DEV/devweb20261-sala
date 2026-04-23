@@ -9,4 +9,5 @@ urlpatterns=[
     path('tabuada/<int:valor>/',views.tabuada,name='tabuada'),
     path('calcular_imc/<int:altura>/<int:peso>/',views.calcular_imc,name='calcular_imc'),
     path('calcular_novo/',views.calcular,name='calcular'),
+    path('mensagem/',views.mensagem,name='mensagem'),
 ]
