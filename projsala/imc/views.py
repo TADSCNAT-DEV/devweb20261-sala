@@ -46,4 +46,7 @@ def calcular(request):
 
 def mensagem(request):
     return JsonResponse({'texto':'Olá do Servidor','mensagem_texto':'Novo Texto'})
+
+def tabela_imc(request):
+   return render(request,'tabela_imc.html')
     

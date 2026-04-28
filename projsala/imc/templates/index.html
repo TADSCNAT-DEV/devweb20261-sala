@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de IMC</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js" integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V" crossorigin="anonymous"></script>
     {% load static %}
     <script src="{% static 'imc/js/script02.js'%}"></script>
+    <link rel="stylesheet" href="{% static 'imc/css/style.css' %}">
 </head>
 <body>
     <header>
@@ -27,9 +29,13 @@
                     </div>
                     <button type="submit" class="button is-link">Calcular IMC</button>
                 </form>
+                <button class="button is-primary" hx-get="{% url 'imc:tabela_imc' %}" hx-target="#tabela_imc">Tabela Referência IMC </button>
             </div>
         </section>
         <section class="section" id="resultado_imc">
+
+        </section>
+        <section class="section" id="tabela_imc">
 
         </section>
         <section id="section_mensagem" data-url_mensagem="{% url 'imc:mensagem' %}">
