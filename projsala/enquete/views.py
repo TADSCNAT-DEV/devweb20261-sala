@@ -13,10 +13,10 @@ def index(request):
         'alternativa3': 'Java',
         'alternativa4': 'C#',
     }
-    return render(request,'index2.html', contexto)
+    return render(request,'enquete/index.html', contexto)
 def votar(request):
     global total1, total2, total3, total4
-    resposta = request.GET.get('alternativa')
+    resposta = request.POST.get('alternativa')
     if resposta == '1':
         total1 += 1
     elif resposta == '2':
@@ -37,4 +37,4 @@ def votar(request):
         'total4': total4,
         'total_votos': total_votos,
     }
-    return render(request, 'resultado2.html', contexto)
+    return render(request, 'enquete/resultado.html', contexto)
