@@ -2,10 +2,11 @@ from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
 from imc.services import IMCService
 import json
+import time
 from django.template.loader import render_to_string
 # Create your views here.​
 def index(request):
-    return render(request,'index.html')
+    return render(request,'imc/index.html')
 def jose(request):
     return HttpResponse("<h2> Bem-vindo José à  aplicação  IMC</h2>")
 def tabuada(request,valor):
@@ -25,28 +26,28 @@ def calcular_imc(request,altura,peso):
 
 def calcular(request):
     if request.method == 'GET':
-        return render(request,'erro.html')
-    #altura = float(request.POST.get('altura'))
-    #peso = float(request.POST.get('peso'))
-    dados=json.loads(request.body)
-    altura = float(dados.get('altura'))
-    peso = float(dados.get('peso'))
+        return render(request,'imc/erro.html')
+    altura = float(request.POST.get('altura'))
+    peso = float(request.POST.get('peso'))
+    time.sleep(2)  # Simula um processamento demorado
     try:
         resultado = IMCService.calcular_imc(altura, peso)
     except ValueError as e:
         mensagem=str(e)
-        return HttpResponse(mensagem, status=400)
+        contexto={'mensagem':mensagem}
+        return render(request,'imc/erro.html',contexto)
     contexto={
         'altura':altura,
         'peso':peso,
         'resultado':resultado,
     }
-    html=render_to_string('resultado_partial.html',contexto)
-    return HttpResponse(html,status=200)
+    if request.htmx:
+        return render(request,'imc/partials/resultado.html',contexto)
+    return render(request,'imc/resultado.html',contexto)
 
 def mensagem(request):
     return JsonResponse({'texto':'Olá do Servidor','mensagem_texto':'Novo Texto'})
 
 def tabela_imc(request):
-   return render(request,'tabela_imc.html')
+   return render(request,'imc/tabela_imc.html')
     

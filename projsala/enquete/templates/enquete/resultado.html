@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-{% load static %}
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Resultado da Enquete</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
-	<link rel="stylesheet" href="{% static 'enquete/css/style.css' %}">
-</head>
-<body>
-	<section class="section">
-		<div class="container">
+{% extends 'principal/base.html' %}
+{% block page_title %}Resultado da Enquete{% endblock %}
+{% block breadcrumb_items %}
+<li class="is-active"><a href="#" aria-current="page">Enquete</a></li>
+{% endblock %}
+{% block page_subtitle %}Resultado da Enquete{% endblock %}
+{% block content %}
 			<div class="columns is-centered">
 				<div class="column is-8-desktop is-10-tablet">
 					<div class="box">
@@ -68,14 +62,11 @@
 							</div>
 							<div class="level-right">
 								<div class="level-item">
-									<a href="/enquete/" class="button is-light">Voltar</a>
+									<a href="{% url 'enquete:index' %}" class="button is-light">Voltar</a>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-</body>
-</html>
+		{%endblock%}
