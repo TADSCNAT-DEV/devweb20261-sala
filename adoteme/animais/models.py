@@ -22,6 +22,7 @@ class Animal(models.Model):
     cor = models.CharField(max_length=50)
     raca = models.ForeignKey(Raca, on_delete=models.CASCADE,related_name='animais')
     descricao = models.TextField(blank=True,null=True)
+    disponivel = models.BooleanField(default=True,null=True)
     def __str__(self):
         return self.nome
     def idade(self):
