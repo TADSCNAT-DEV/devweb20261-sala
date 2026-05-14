@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animais - {{ tipo_animal.nome }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Animais do tipo: {{ tipo_animal.nome }}</h1>
+
+            {% if animais %}
+                <div class="table-container">
+                    <table class="table is-striped is-hoverable is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Raça</th>
+                                <th>Sexo</th>
+                                <th>Idade</th>
+                                <th>Cor</th>
+                                <th>Disponível</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for animal in animais %}
+                                <tr>
+                                    <td>{{ animal.nome }}</td>
+                                    <td>{{ animal.raca.nome }}</td>
+                                    <td>{{ animal.get_sexo_display }}</td>
+                                    <td>{{ animal.idade }} ano(s)</td>
+                                    <td>{{ animal.cor }}</td>
+                                    <td>
+                                        {% if animal.disponivel %}
+                                            <span class="tag is-success">Sim</span>
+                                        {% else %}
+                                            <span class="tag is-danger">Não</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <article class="message is-warning">
+                    <div class="message-header">
+                        <p>Nenhum animal encontrado</p>
+                    </div>
+                    <div class="message-body">
+                        Não há animais cadastrados para o tipo <strong>{{ tipo_animal.nome }}</strong>.
+                    </div>
+                </article>
+            {% endif %}
+        </div>
+    </section>
+</body>
+</html>

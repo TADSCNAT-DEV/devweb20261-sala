@@ -26,6 +26,7 @@ class Animal(models.Model):
 
     def __str__(self):
         return f'Animal: {self.nome} ({self.raca})'
+    
     @property
     def idade(self):
         from datetime import date
