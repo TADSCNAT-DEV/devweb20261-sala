@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Leilões</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+</head>
+<body class="has-background-light">
+	<header class="section py-5 has-background-info-light border-bottom">
+		<div class="container">
+			<div class="level is-mobile">
+				<div class="level-left">
+					<div>
+						<p class="title is-4 mb-1">Leilões disponíveis</p>
+						<p class="subtitle is-6 mb-0">Lista renderizada pela view <strong>index</strong>.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<section class="section">
+		<div class="container">
+			{% if leiloes %}
+				<div class="columns is-multiline">
+					{% for leilao in leiloes %}
+						<div class="column is-one-third-desktop is-half-tablet">
+							<div class="card">
+								<header class="card-header">
+									<p class="card-header-title"><a href="{% url 'leilao:listar_itens_leilao' leilao.id %}">Leilão {{ leilao.id }}</a></p>
+								</header>
+								<div class="card-content">
+									<div class="content">
+										<p><strong>Início:</strong> {{ leilao.dataInicio|date:"d/m/Y" }} às {{ leilao.horaInicio|time:"H:i" }}</p>
+										<p><strong>Término:</strong> {{ leilao.dataTermino|date:"d/m/Y" }} às {{ leilao.horaTermino|time:"H:i" }}</p>
+										<p><strong>Itens:</strong> {{ leilao.itens.count }}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% else %}
+				<div class="notification is-warning is-light">
+					Nenhum leilão cadastrado no momento.
+				</div>
+			{% endif %}
+		</div>
+	</section>
+</body>
+</html>
