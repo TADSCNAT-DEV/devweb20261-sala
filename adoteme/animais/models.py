@@ -23,7 +23,7 @@ class Animal(models.Model):
     descricao= models.TextField()
     sexo = models.CharField(max_length=1, choices=[('M', 'Masculino'), ('F', 'Feminino')])
     raca = models.ForeignKey(Raca, on_delete=models.CASCADE,related_name='animais')
-
+    foto = models.ImageField(upload_to='animais/fotos/', blank=True)
     def __str__(self):
         return f'Animal: {self.nome} ({self.raca})'
     
