@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Usuario(User):
     nome=models.CharField(max_length=100)
     cpf=models.CharField(max_length=11)
-    tipo=models.CharField(max_length=1,choices=[('1','ADOTANTE'),('2','ABRIGO')])
+    tipo=models.CharField(max_length=1,choices=[('1','ADOTANTE'),('2','AVALIADOR')])
 
     def __str__(self):
         return self.nome
