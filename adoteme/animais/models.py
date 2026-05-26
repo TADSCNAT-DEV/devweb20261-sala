@@ -7,6 +7,9 @@ class TipoAnimal(models.Model):
 
     def __str__(self):
         return f'TipoAnimal: {self.nome}'
+    
+    class Meta:
+        verbose_name_plural = 'Tipos de Animais'
 
 class Raca(models.Model):
     nome = models.CharField(max_length=100)
@@ -14,6 +17,15 @@ class Raca(models.Model):
 
     def __str__(self):
         return f'{self.nome} ({self.tipo_animal.nome})'
+
+class RacaOrdenada(Raca):
+    class Meta:
+        proxy = True
+        ordering = ['nome']
+    
+    def mostre(self):
+        return f'Raça: {self.nome} - Tipo: {self.tipo_animal.nome}'
+
 
 class Animal(models.Model):
     nome = models.CharField(max_length=100)
