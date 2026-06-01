@@ -155,3 +155,34 @@
 		background: #eef5fa;
 		color: #1f6f8b;
 	}
+
+    	.foto-preview-card {
+		border: 1px dashed #c7d2e0;
+		border-radius: 12px;
+		padding: 0.75rem;
+		background: #f7fafc;
+	}
+
+	.foto-preview-box {
+		width: 100%;
+		height: 220px;
+		border-radius: 10px;
+		overflow: hidden;
+		background: #e9eef4;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.foto-preview-img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		background: #eef3f8;
+	}
+
+	.foto-preview-empty {
+		text-align: center;
+		color: #6b7787;
+		font-size: 0.95rem;
+	}

@@ -34,3 +34,46 @@ class AnimalService:
             animais = animais.filter(raca__id=raca)
 
         return animais
+    
+    @staticmethod
+    def cadastrar_animal(nome, data_nascimento, sexo, cor, raca_id, descricao=None, disponivel=True, foto=None):
+        animal = Animal(
+            nome=nome,
+            data_nascimento=data_nascimento,
+            sexo=sexo,
+            cor=cor,
+            raca_id=raca_id,
+            descricao=descricao,
+            disponivel=disponivel,
+            foto=foto
+        )
+        animal.save()
+        return animal
+    
+    @staticmethod
+    def atualizar_animal(id, nome=None, data_nascimento=None, sexo=None, cor=None, raca_id=None, descricao=None, disponivel=None, foto=None):
+        animal = Animal.objects.get(id=id)
+
+        if nome is not None:
+            animal.nome = nome
+        if data_nascimento is not None:
+            animal.data_nascimento = data_nascimento
+        if sexo is not None:
+            animal.sexo = sexo
+        if cor is not None:
+            animal.cor = cor
+        if raca_id is not None:
+            animal.raca_id = raca_id
+        if descricao is not None:
+            animal.descricao = descricao
+        if disponivel is not None:
+            animal.disponivel = disponivel
+        if foto is not None:
+            animal.foto = foto
+
+        animal.save()
+        return animal
+    @staticmethod
+    def excluir_animal(id):
+        animal = Animal.objects.get(id=id)
+        return animal.delete()
