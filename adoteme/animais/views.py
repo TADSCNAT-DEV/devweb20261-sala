@@ -1,11 +1,31 @@
 from django.shortcuts import render
-from animais.models import TipoAnimal
+from animais.models import Animal
+from animais.services.baseanimaisservices import RacaService, TipoAnimalService
+from animais.services.animaisservices import AnimalService
 # Create your views here.
 
-def listar_tipos_animais(request):
-    busca=request.GET.get('busca')
+def listar_animais(request):
+    busca = request.GET.get('busca')
     if busca:
-        tipos = TipoAnimal.objects.filter(nome__icontains=busca)
+        animais = AnimalService.buscar_animais_por_nome(busca)
     else:
-        tipos = TipoAnimal.objects.all()
-    return render(request, 'animais/tipo/lista.html', {'tipos': tipos,'busca':busca})
+        animais = AnimalService.listar_animais()
+
+    context = {
+        'animais': animais,
+        'busca': busca,
+    }
+    return render(request, 'animais/lista.html', context)
+
+def listar_tipos(request):
+    busca = request.GET.get('busca')
+    if busca:
+        tipos = TipoAnimalService.buscar_tipos_animais_por_nome(busca)
+    else:
+        tipos = TipoAnimalService.listar_tipos_animais()
+
+    context = {
+        'tipos': tipos,
+        'busca': busca,
+    }
+    return render(request, 'animais/tipo/lista.html', context)

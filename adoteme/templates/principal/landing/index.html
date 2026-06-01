@@ -1,0 +1,64 @@
+{% extends 'principal/landing/base_landing.html' %}
+
+{% block title %}Animais Disponiveis | Adote-me{% endblock %}
+
+{% block animais_content %}
+<div class="soft-card p-5">
+	<h2 class="title is-4 mb-2">
+		<span class="icon has-text-warning-dark"><i class="fas fa-cat"></i></span>
+		<span>Animais Disponiveis para Adocao</span>
+	</h2>
+	<p class="mb-5 has-text-grey-dark">Selecione seu futuro companheiro e inicie o processo de adocao responsavel.</p>
+
+	{% if animais %}
+		<div class="columns is-multiline">
+			{% for animal in animais %}
+			<div class="column is-12-mobile is-6-tablet is-4-desktop">
+				<article class="card animal-card h-full">
+					<div class="card-image">
+						<figure class="image is-4by3 animal-card-media">
+							{% if animal.foto %}
+								<img src="{{ animal.foto.url }}" alt="Foto de {{ animal.nome }}">
+							{% else %}
+								<div class="animal-card-placeholder is-flex is-justify-content-center is-align-items-center">
+									<span class="icon is-large has-text-warning-dark"><i class="fas fa-cat fa-2x"></i></span>
+								</div>
+							{% endif %}
+						</figure>
+					</div>
+
+					<div class="card-content">
+						<p class="title is-5 mb-3">{{ animal.nome }}</p>
+
+						<div class="is-flex is-justify-content-space-between is-align-items-center mb-2">
+							<span class="has-text-grey">Sexo</span>
+							<strong>{{ animal.get_sexo_display }}</strong>
+						</div>
+
+						<div class="is-flex is-justify-content-space-between is-align-items-center mb-3">
+							<span class="has-text-grey">Idade</span>
+							<strong>{{ animal.idade }} ano(s)</strong>
+						</div>
+
+						<div>
+							{% if animal.disponivel %}
+								<span class="tag is-success is-light is-medium">Disponivel</span>
+							{% else %}
+								<span class="tag is-danger is-light is-medium">Indisponivel</span>
+							{% endif %}
+						</div>
+					</div>
+				</article>
+			</div>
+			{% endfor %}
+		</div>
+	{% else %}
+		<article class="message is-warning is-light">
+			<div class="message-body">
+				Nenhum gatinho disponivel para adoção no momento.
+			</div>
+		</article>
+	{% endif %}
+</div>
+{% endblock %}
+
