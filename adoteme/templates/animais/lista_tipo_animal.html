@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipos de Animais</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Lista de Tipos de Animais</h1>
+
+            <form method="get" class="mb-5">
+                <div class="field has-addons">
+                    <div class="control is-expanded">
+                        <input class="input" type="text" name="criterio"
+                               placeholder="Buscar por nome..."
+                               value="{{ request.GET.criterio }}">
+                    </div>
+                    <div class="control">
+                        <button class="button is-link" type="submit">Buscar</button>
+                    </div>
+                    {% if request.GET.criterio %}
+                        <div class="control">
+                            <a class="button is-light" href="?">Limpar</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </form>
+
+            {% if tipos_animais %}
+                <div class="table-container">
+                    <table class="table is-striped is-hoverable is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tipo in tipos_animais %}
+                                <tr>
+                                    <td><a href="{% url 'animais:listar_animais_por_tipo' tipo.id %}">{{ tipo.nome }}</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <article class="message is-warning">
+                    <div class="message-header">
+                        <p>Nenhum registro encontrado</p>
+                    </div>
+                    <div class="message-body">
+                        Não há tipos de animais cadastrados no momento.
+                    </div>
+                </article>
+            {% endif %}
+        </div>
+    </section>
+</body>
+</html>

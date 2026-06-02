@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Itens do Leilão</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+</head>
+<body class="has-background-light">
+	<header class="section py-5 has-background-link-light border-bottom">
+		<div class="container">
+			<div class="level is-mobile">
+				<div class="level-left">
+					<div>
+						<p class="title is-4 mb-1">Itens do leilão</p>
+						<p class="subtitle is-6 mb-0">Visualização dos itens vinculados ao leilão selecionado.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<section class="section">
+		<div class="container">
+			<div class="box mb-5">
+				<div class="columns is-vcentered is-variable is-4">
+					<div class="column">
+						<p class="title is-5 mb-1">Leilão {{ leilao.id }}</p>
+						<p class="subtitle is-6 mb-0">
+							{{ leilao.dataInicio|date:"d/m/Y" }} às {{ leilao.horaInicio|time:"H:i" }}
+							até {{ leilao.dataTermino|date:"d/m/Y" }} às {{ leilao.horaTermino|time:"H:i" }}
+						</p>
+					</div>
+					<div class="column is-narrow">
+						<form method="get" class="field has-addons">
+							<div class="control is-expanded">
+								<input class="input" type="text" name="busca" placeholder="Buscar item por título" value="{{ request.GET.busca }}">
+							</div>
+							<div class="control">
+								<button class="button is-link" type="submit">Buscar</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="table-container">
+				<table class="table is-fullwidth is-striped is-hoverable is-bordered">
+					<thead>
+						<tr>
+							<th>Título</th>
+							<th>Descrição</th>
+							<th>Lance mínimo</th>
+							<th>Arrematado</th>
+							<th>Total de lances</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in itens %}
+							<tr>
+								<td>{{ item.titulo }}</td>
+								<td>{{ item.descricao }}</td>
+								<td>R$ {{ item.lanceMinimo }}</td>
+								<td>
+									{% if item.arrematado %}
+										<span class="tag is-success">Sim</span>
+									{% else %}
+										<span class="tag is-warning is-light">Não</span>
+									{% endif %}
+								</td>
+								<td>R$ {{ item.total_lances }}</td>
+							</tr>
+						{% empty %}
+							<tr>
+								<td colspan="5">
+									<div class="notification is-warning is-light mb-0">
+										Nenhum item encontrado para este leilão.
+									</div>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
