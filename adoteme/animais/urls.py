@@ -4,6 +4,9 @@ from . import views
 app_name = 'animais'
 
 urlpatterns = [
-    path('tipos/', views.listar_tipos_animais, name='listar_tipos_animais'),
-    path('tipos/<int:tipo_id>/animais/', views.listar_animais_por_tipo, name='listar_animais_por_tipo'),
+    path('listar/', views.listar_animais, name='listar_animais'),
+    path('tipos/listar/', views.listar_tipos, name='listar_tipos'),
+    path('cadastrar/', views.cadastrar_animal, name='cadastrar_animal'),
+    path('atualizar/<int:id>/', views.atualizar_animal, name='atualizar_animal'),
+    path('excluir/<int:id>/', views.excluir_animal, name='excluir_animal'),
 ]

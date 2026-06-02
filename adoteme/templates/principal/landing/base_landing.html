@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block title %}Adote-me | Encontre um novo melhor amigo{% endblock %}</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js" integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V" crossorigin="anonymous"></script>
+    {% load static %}
+    	<link rel="stylesheet" href="{% static 'css/base_landing.css' %}">
+	{% block extra_head %}{% endblock %}
+</head>
+<body>
+	<section class="section pb-0">
+		<div class="container">
+			<nav class="navbar is-transparent mb-4" role="navigation" aria-label="main navigation">
+				<div class="navbar-brand">
+					<a class="navbar-item has-text-weight-bold is-size-5" href="#inicio">
+						<span class="icon has-text-warning-dark"><i class="fas fa-paw"></i></span>
+						<span>Adote-me</span>
+					</a>
+				</div>
+				<div class="navbar-menu is-active">
+					<div class="navbar-end">
+						<a class="navbar-item" href="#sobre">Sobre</a>
+						<a class="navbar-item" href="#animais">Animais</a>
+						<a class="navbar-item" href="#consulta">Consulta</a>
+						<a class="navbar-item" href="{% url 'animais:listar_tipos' %}">Area Logada</a>
+					</div>
+				</div>
+			</nav>
+
+			<div id="inicio" class="hero-gradient p-6 mb-5">
+				<div class="columns is-vcentered">
+					<div class="column is-8">
+						<h1 class="title is-1 mb-3">Encontre um companheiro para toda a vida</h1>
+						<p class="subtitle is-5 mb-5">
+							O Adote-me conecta lares responsaveis a animais que esperam por uma nova chance.
+						</p>
+						<div class="buttons">
+							<a href="#animais" class="button is-dark is-medium">Quero Adotar</a>
+							<a href="#sobre" class="button is-light is-medium">Como Funciona</a>
+						</div>
+					</div>
+					<div class="column is-4">
+						<div class="soft-card p-4">
+							<p class="heading">Consulta rapida</p>
+							<form method="GET" id="consulta" action="">
+								<div class="field mb-3">
+									<label class="label">Nome do animal</label>
+									<div class="control has-icons-left">
+										<input
+											class="input"
+											type="text"
+											name="nome"
+											placeholder="Ex: Nina, Thor, Mel"
+											value="{{ filtro_nome|default:'' }}"
+										>
+										<span class="icon is-small is-left"><i class="fas fa-search"></i></span>
+									</div>
+								</div>
+
+								<div class="field mb-3">
+									<label class="label">Tipo de animal</label>
+									<div class="control">
+										<div class="select is-fullwidth">
+											<select name="tipo">
+												<option value="">Todos</option>
+												{% for tipo in tipos %}
+													<option value="{{ tipo.id }}" {% if filtro_tipo == tipo.id|stringformat:'s' %}selected{% endif %}>{{ tipo.nome }}</option>
+												{% endfor %}
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<div class="field mb-3">
+									<label class="label">Raca</label>
+									<div class="control">
+										<div class="select is-fullwidth">
+											<select name="raca">
+												<option value="">Todas</option>
+												{% for raca in racas %}
+													<option value="{{ raca.id }}" {% if filtro_raca == raca.id|stringformat:'s' %}selected{% endif %}>{{ raca.tipo_animal.nome }} - {{ raca.nome }}</option>
+												{% endfor %}
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<div class="field mb-4">
+									<label class="label">Disponibilidade</label>
+									<div class="control">
+										<div class="select is-fullwidth">
+											<select name="disponivel">
+												<option value="todos" {% if filtro_disponivel == 'todos' %}selected{% endif %}>Todos</option>
+												<option value="sim" {% if filtro_disponivel == 'sim' %}selected{% endif %}>Disponiveis</option>
+												<option value="nao" {% if filtro_disponivel == 'nao' %}selected{% endif %}>Indisponiveis</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<button class="button is-warning is-fullwidth has-text-weight-semibold" type="submit">
+									Consultar Animais
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="sobre" class="section pt-4">
+		<div class="container">
+			<div class="columns">
+				<div class="column">
+					<div class="metric">
+						<p class="heading">Animais Disponiveis</p>
+						<p class="title is-3">{{ total_animais|default:0 }}</p>
+					</div>
+				</div>
+				<div class="column">
+					<div class="metric">
+						<p class="heading">Tipos Cadastrados</p>
+						<p class="title is-3">{{ total_tipos|default:0 }}</p>
+					</div>
+				</div>
+				<div class="column">
+					<div class="metric">
+						<p class="heading">Adocoes Realizadas</p>
+						<p class="title is-3">{{ total_adocoes|default:0 }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="animais" class="section pt-0">
+		<div class="container">
+			{% block animais_content %}{% endblock %}
+		</div>
+	</section>
+
+	<a href="#consulta" class="button is-warning is-medium floating-cta">
+		<span class="icon"><i class="fas fa-search"></i></span>
+		<span>Consultar</span>
+	</a>
+
+	{% block extra_scripts %}{% endblock %}
+</body>
+</html>

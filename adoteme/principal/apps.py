@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class PrincipalConfig(AppConfig):
-    name = "principal"
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'principal'

@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class AnimaisConfig(AppConfig):
-    name = "animais"
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'animais'
