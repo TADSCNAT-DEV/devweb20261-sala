@@ -19,10 +19,10 @@ class AnimalService:
     
     @staticmethod
     def buscar(nome=None, tipo=None, raca=None, disponivel=None):
-        animais = Animal.objects.select_related('raca', 'raca__tipo_animal')
+        animais = Animal.objects.all()
 
         if disponivel is not None:
-            animais = Animal.objects.filter(disponivel=disponivel)
+            animais = animais.objects.filter(disponivel=disponivel)
 
         if nome:
             animais = animais.filter(nome__icontains=nome)

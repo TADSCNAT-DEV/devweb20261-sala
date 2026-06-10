@@ -22,9 +22,5 @@ class Migration(migrations.Migration):
             name='tipoanimal',
             options={'ordering': ['nome'], 'verbose_name_plural': 'Tipos de Animais'},
         ),
-        migrations.AddField(
-            model_name='animal',
-            name='foto',
-            field=models.ImageField(blank=True, null=True, upload_to='fotos_animais/'),
-        ),
+       
     ]
