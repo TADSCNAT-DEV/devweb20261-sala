@@ -37,6 +37,32 @@
     </form>
 </div>
 
+{% if messages %}
+    {% for message in messages %}
+        {% if 'success' in message.tags %}
+        <div id="success-modal" class="modal is-active">
+            <div class="modal-background" onclick="closeSuccessModal()"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Operação Realizada/p>
+                    <button class="delete" aria-label="close" type="button" onclick="closeSuccessModal()"></button>
+                </header>
+                <section class="modal-card-body">
+                    <article class="message is-success is-light mb-0">
+                        <div class="message-body">
+                            {{ message }}
+                        </div>
+                    </article>
+                </section>
+                <footer class="modal-card-foot is-justify-content-flex-end">
+                    <button class="button is-success" type="button" onclick="closeSuccessModal()">OK</button>
+                </footer>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
 {% if animais %}
     <div class="table-container">
         <table class="table is-fullwidth is-striped is-hoverable">
@@ -129,6 +155,13 @@
 
 {% block extra_scripts %}
 <script>
+    function closeSuccessModal() {
+        const modal = document.getElementById('success-modal');
+        if (modal) {
+            modal.classList.remove('is-active');
+        }
+    }
+
     function openDeleteModal(animalId) {
         const modal = document.getElementById(`delete-modal-${animalId}`);
         if (modal) {

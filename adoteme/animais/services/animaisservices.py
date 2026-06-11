@@ -5,7 +5,10 @@ class AnimalService:
 
     @staticmethod
     def obter_animal(id):
-        return Animal.objects.get(id=id)
+        try:
+            return Animal.objects.get(id=id)
+        except Animal.DoesNotExist:
+            return None
 
     @staticmethod
     def listar_animais(disponivel=None):
