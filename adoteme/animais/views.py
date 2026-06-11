@@ -17,6 +17,20 @@ def listar_animais(request):
     }
     return render(request, 'animais/lista.html', context)
 
+def listar_racas(request):
+    busca=request.GET.get('busca')
+    if busca:
+        racas = RacaService.buscar_racas_por_nome(busca)
+    else:
+        racas = RacaService.listar_racas()
+
+    context = {
+        'racas': racas,
+        'busca': busca,
+    }
+    return render(request, 'animais/raca/lista.html', context)
+
+
 def listar_tipos(request):
     busca = request.GET.get('busca')
     if busca:
