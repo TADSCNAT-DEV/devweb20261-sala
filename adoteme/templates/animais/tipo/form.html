@@ -1,0 +1,64 @@
+{% extends 'principal/interna/base.html' %}
+
+{% block title %}{% if tipo_animal %}Editar Tipo de Animal{% else %}Cadastrar Tipo de Animal{% endif %} - Adote-me{% endblock %}
+{% block page_title %}{% if tipo_animal %}Editar Tipo de Animal{% else %}Cadastrar Tipo de Animal{% endif %}{% endblock %}
+
+{% block content %}
+<div class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+	<div>
+		<h1 class="title is-4 mb-1">{% if tipo_animal %}Editar cadastro{% else %}Novo cadastro{% endif %}</h1>
+		<p class="subtitle is-6 mb-0">Informe o nome do tipo de animal para manter a classificacao organizada.</p>
+	</div>
+	<a href="{% url 'animais:listar_tipos' %}" class="button is-light">
+		<span class="icon"><i class="fas fa-arrow-left"></i></span>
+		<span>Voltar</span>
+	</a>
+</div>
+
+<form
+	method="POST"
+	action="{% if tipo_animal %}{% url 'animais:atualizar_tipo_animal' tipo_animal.id %}{% else %}{% url 'animais:cadastrar_tipo_animal' %}{% endif %}"
+>
+	{% csrf_token %}
+
+	<div class="box">
+		<div class="columns is-multiline">
+			<div class="column is-12-tablet is-8-desktop">
+				<div class="field">
+					<label class="label">Nome</label>
+					<div class="control">
+						<input
+							class="input"
+							type="text"
+							name="nome"
+							placeholder="Ex: Cachorro"
+							value="{% if dados %}{{ dados.nome|default:'' }}{% else %}{{ tipo_animal.nome|default:'' }}{% endif %}"
+							required
+						>
+					</div>
+					{% if erros.nome %}
+						{% for erro in erros.nome %}
+							<p class="help is-danger">{{ erro }}</p>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+
+			<div class="column is-12-tablet is-4-desktop">
+				<div class="notification is-light is-fullheight mb-0">
+					<p class="has-text-weight-semibold mb-2">Orientacao</p>
+					<p>Use um nome curto e objetivo para facilitar a vinculacao de racas e animais.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="is-flex is-justify-content-flex-end" style="gap: 0.75rem;">
+		<a href="{% url 'animais:listar_tipos' %}" class="button is-light">Cancelar</a>
+		<button class="button is-success" type="submit">
+			<span class="icon"><i class="fas fa-floppy-disk"></i></span>
+			<span>{% if tipo_animal %}Salvar Alteracoes{% else %}Cadastrar Tipo{% endif %}</span>
+		</button>
+	</div>
+</form>
+{% endblock %}
