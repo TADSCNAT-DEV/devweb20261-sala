@@ -1,8 +1,9 @@
 from django.db import models
 from animais.models import Animal
 from usuarios.models import Usuario
+from django.core.exceptions import ValidationError
 # Create your models here.
-
+import datetime
 class ProcessoAdocao(models.Model):
     STATUS_CHOICES = [
         ('EM_ANALISE', 'Em Análise'),
@@ -16,6 +17,25 @@ class ProcessoAdocao(models.Model):
     atualizadaem = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='EM_ANALISE')
     comentarios=models.ManyToManyField(Usuario, blank=True, through='Comentario',related_name='comentarios_usuario')
+
+    def clean(self):
+        erros = {}
+        if self.adotante and self.adotante.tipo_usuario != 'ADOTANTE':
+            erros['adotante'] = 'O usuário deve ser do tipo ADOTANTE.'
+        if self.avaliador and self.avaliador.tipo_usuario != 'ABRIGO':
+            erros['avaliador'] = 'O usuário avaliador deve ser do tipo ABRIGO.'
+        if self.animal is None:
+            erros['animal'] = 'O animal é obrigatório.'
+        elif not self.animal.disponivel:
+            erros['animal'] = 'O animal não está disponível para adoção.'
+        if erros:
+            raise ValidationError(erros)
+    
+    def atrasada(self):
+        if self.status == 'EM_ANALISE':
+            dias_em_analise = (datetime.date.today() - self.criadaem).days
+            return dias_em_analise > 7
+        return False
 
     def __str__(self):
         return f"Processo de Adoção: {self.adotante.nome} - {self.animal.nome} ({self.status})"
