@@ -1,11 +1,14 @@
 
 from animais.models import Animal
-
+from django.core.exceptions import ValidationError
 class AnimalService:
 
     @staticmethod
     def obter_animal(id):
-        return Animal.objects.get(id=id)
+        try:
+            return Animal.objects.get(id=id)
+        except Animal.DoesNotExist:
+            return None
 
     @staticmethod
     def listar_animais(disponivel=None):
@@ -47,6 +50,10 @@ class AnimalService:
             disponivel=disponivel,
             foto=foto
         )
+        try:
+            animal.full_clean()  # Valida os dados do modelo
+        except ValidationError as e:
+            raise e 
         animal.save()
         return animal
     
@@ -70,7 +77,10 @@ class AnimalService:
             animal.disponivel = disponivel
         if foto is not None:
             animal.foto = foto
-
+        try:
+            animal.full_clean()  # Valida os dados do modelo
+        except ValidationError as e:
+            raise e
         animal.save()
         return animal
     @staticmethod

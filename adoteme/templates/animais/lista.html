@@ -37,6 +37,8 @@
     </form>
 </div>
 
+
+
 {% if animais %}
     <div class="table-container">
         <table class="table is-fullwidth is-striped is-hoverable">
@@ -114,9 +116,11 @@
 
     <div class="notification is-info is-light mt-4 mb-0">
         <p class="has-text-centered">
-            <strong>Total de animais listados:</strong> {{ animais|length }}
+            <strong>Total de animais encontrados:</strong> {{ animais.paginator.count }}
         </p>
     </div>
+
+    {% include 'components/pagination.html' with page_obj=animais query_string=query_string %}
 {% else %}
     <article class="message is-warning">
         <div class="message-body has-text-centered">

@@ -39,10 +39,15 @@
 							type="text"
 							name="nome"
 							placeholder="Nome do animal"
-							value="{{ animal.nome|default:'' }}"
+							value="{% if dados %}{{ dados.nome|default:'' }}{% else %}{{ animal.nome|default:'' }}{% endif %}"
 							required
 						>
 					</div>
+					{% if erros.nome %}
+						{% for erro in erros.nome %}
+							<p class="help is-danger">{{ erro }}</p>
+						{% endfor %}
+					{% endif %}
 				</div>
 			</div>
 
@@ -54,10 +59,15 @@
 							class="input"
 							type="date"
 							name="data_nascimento"
-							value="{{ animal.data_nascimento|date:'Y-m-d'|default:'' }}"
+							value="{% if dados %}{{ dados.data_nascimento|default:'' }}{% else %}{{ animal.data_nascimento|date:'Y-m-d'|default:'' }}{% endif %}"
 							required
 						>
 					</div>
+					{% if erros.data_nascimento %}
+						{% for erro in erros.data_nascimento %}
+							<p class="help is-danger">{{ erro }}</p>
+						{% endfor %}
+					{% endif %}
 				</div>
 			</div>
 
@@ -68,11 +78,16 @@
 						<div class="select is-fullwidth">
 							<select name="sexo" required>
 								<option value="">Selecione</option>
-								<option value="M" {% if animal.sexo == 'M' %}selected{% endif %}>Masculino</option>
-								<option value="F" {% if animal.sexo == 'F' %}selected{% endif %}>Feminino</option>
+								<option value="M" {% if dados %}{% if dados.sexo == 'M' %}selected{% endif %}{% else %}{% if animal.sexo == 'M' %}selected{% endif %}{% endif %}>Masculino</option>
+								<option value="F" {% if dados %}{% if dados.sexo == 'F' %}selected{% endif %}{% else %}{% if animal.sexo == 'F' %}selected{% endif %}{% endif %}>Feminino</option>
 							</select>
 						</div>
 					</div>
+					{% if erros.sexo %}
+						{% for erro in erros.sexo %}
+							<p class="help is-danger">{{ erro }}</p>
+						{% endfor %}
+					{% endif %}
 				</div>
 			</div>
 
@@ -85,10 +100,15 @@
 							type="text"
 							name="cor"
 							placeholder="Ex: Caramelo"
-							value="{{ animal.cor|default:'' }}"
+							value="{% if dados %}{{ dados.cor|default:'' }}{% else %}{{ animal.cor|default:'' }}{% endif %}"
 							required
 						>
 					</div>
+					{% if erros.cor %}
+						{% for erro in erros.cor %}
+							<p class="help is-danger">{{ erro }}</p>
+						{% endfor %}
+					{% endif %}
 				</div>
 			</div>
 
@@ -100,13 +120,21 @@
 							<select name="raca_id" required>
 								<option value="">Selecione</option>
 								{% for raca in racas %}
-									<option value="{{ raca.id }}" {% if animal.raca.id == raca.id %}selected{% endif %}>
+									<option value="{{ raca.id }}" {% if dados %}{% if dados.raca_id == raca.id|stringformat:'s' %}selected{% endif %}{% else %}{% if animal.raca.id == raca.id %}selected{% endif %}{% endif %}>
 										{{ raca.tipo_animal.nome }} - {{ raca.nome }}
 									</option>
 								{% endfor %}
 							</select>
 						</div>
 					</div>
+					{% if erros.raca or erros.raca_id %}
+						{% for erro in erros.raca %}
+							<p class="help is-danger">{{ erro }}</p>
+						{% endfor %}
+						{% for erro in erros.raca_id %}
+							<p class="help is-danger">{{ erro }}</p>
+						{% endfor %}
+					{% endif %}
 				</div>
 			</div>
 
@@ -119,8 +147,13 @@
 							name="descricao"
 							placeholder="Informacoes gerais sobre o animal"
 							rows="4"
-						>{{ animal.descricao|default:'' }}</textarea>
+						>{% if dados %}{{ dados.descricao|default:'' }}{% else %}{{ animal.descricao|default:'' }}{% endif %}</textarea>
 					</div>
+					{% if erros.descricao %}
+						{% for erro in erros.descricao %}
+							<p class="help is-danger">{{ erro }}</p>
+						{% endfor %}
+					{% endif %}
 				</div>
 			</div>
 
@@ -131,6 +164,11 @@
 						<input id="foto-input" class="input" type="file" name="foto" accept="image/*">
 					</div>
 					<p class="help">Selecione uma imagem para visualizar antes de salvar.</p>
+					{% if erros.foto %}
+						{% for erro in erros.foto %}
+							<p class="help is-danger">{{ erro }}</p>
+						{% endfor %}
+					{% endif %}
 					{% if animal and animal.foto %}
 						<p class="help">Foto atual: {{ animal.foto.name }}</p>
 					{% endif %}
@@ -157,9 +195,14 @@
 
 				<div class="field">
 					<label class="checkbox">
-						<input type="checkbox" name="disponivel" {% if animal.disponivel or not animal %}checked{% endif %}>
+						<input type="checkbox" name="disponivel" {% if dados %}{% if dados.disponivel %}checked{% endif %}{% else %}{% if animal.disponivel or not animal %}checked{% endif %}{% endif %}>
 						Animal disponivel para adocao
 					</label>
+					{% if erros.disponivel %}
+						{% for erro in erros.disponivel %}
+							<p class="help is-danger">{{ erro }}</p>
+						{% endfor %}
+					{% endif %}
 				</div>
 			</div>
 		</div>

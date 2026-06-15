@@ -1,18 +1,21 @@
 {% extends 'principal/interna/base.html' %}
 
+
 {% block title %}Raças - Adote-me{% endblock %}
 {% block page_title %}Listagem de Raças de Animais{% endblock %}
 
 {% block content %}
 <div class="is-flex is-justify-content-space-between is-align-items-center mb-5">
 	<div>
-		<h1 class="title is-4 mb-1">Raças</h1>
+
+		<h1 class="title is-4 mb-1">Raças de Animais</h1>
 		<p class="subtitle is-6 mb-0">Gestao das raças cadastradas no sistema</p>
 	</div>
-	<button class="button is-success">
+	<a href="{% url 'animais:cadastrar_raca' %}" class="button is-success">
 		<span class="icon"><i class="fas fa-plus"></i></span>
 		<span>Nova Raça</span>
-	</button>
+	</a>
+
 </div>
 
 <div class="box mb-5">
@@ -23,7 +26,7 @@
 					class="input"
 					type="text"
 					name="busca"
-					placeholder="Buscar raça por nome..."
+					placeholder="Buscar tipo por nome..."
 					value="{{ busca|default:'' }}"
 				>
 			</div>
@@ -44,7 +47,7 @@
 				<tr>
 					<th>ID</th>
 					<th>Nome da Raça</th>
-					<th>Tipo do Animal</th>
+					<th class="has-text-centered">Tipo de Animal</th>
 					<th class="has-text-centered">Acoes</th>
 				</tr>
 			</thead>
@@ -52,24 +55,47 @@
 				{% for raca in racas %}
 				<tr>
 					<td>{{ raca.id }}</td>
-                    <td>{{ raca.nome }}</td>
 					<td>
 						<span class="icon-text">
 							<span class="icon has-text-info"><i class="fas fa-tag"></i></span>
-							<strong>{{ raca.tipo_animal.nome }}</strong>
+							<strong>{{ raca.nome }}</strong>
 						</span>
 					</td>
+					<td class="has-text-centered">{{ raca.tipo_animal.nome }}</td>
 					<td class="has-text-centered">
 						<div class="buttons are-small is-centered">
-							<button class="button is-warning is-light">
+							<a href="{% url 'animais:atualizar_raca' raca.id %}" class="button is-warning is-light">
 								<span class="icon"><i class="fas fa-edit"></i></span>
 								<span>Editar</span>
-							</button>
-							<button class="button is-danger is-light">
+							</a>
+							<button class="button is-danger is-light" onclick="openDeleteModal('{{ raca.id }}')">
 								<span class="icon"><i class="fas fa-trash"></i></span>
 								<span>Excluir</span>
 							</button>
 						</div>
+						 <div id="delete-modal-{{ raca.id }}" class="modal">
+                            <div class="modal-background" onclick="closeDeleteModal('{{ raca.id }}')"></div>
+                            <div class="modal-card">
+                                <header class="modal-card-head">
+                                    <p class="modal-card-title">Confirmar exclusao</p>
+                                    <button class="delete" aria-label="close" type="button" onclick="closeDeleteModal('{{ raca.id }}')"></button>
+                                </header>
+                                <section class="modal-card-body">
+                                    <p>
+                                        Deseja realmente excluir a raça
+                                        <strong>{{ raca.nome }}</strong>?
+                                    </p>
+                                    <p class="mt-2 has-text-grey-dark">Essa ação não podera ser desfeita.</p>
+                                </section>
+                                <footer class="modal-card-foot is-justify-content-flex-end">
+                                    <button class="button" type="button" onclick="closeDeleteModal('{{ raca.id }}')">Cancelar</button>
+                                    <form method="POST" action="{% url 'animais:excluir_raca' raca.id %}">
+                                        {% csrf_token %}
+                                        <button class="button is-danger" type="submit">Excluir</button>
+                                    </form>
+                                </footer>
+                            </div>
+                        </div>
 					</td>
 				</tr>
 				{% endfor %}
@@ -79,9 +105,11 @@
 
 	<div class="notification is-info is-light mt-4 mb-0">
 		<p class="has-text-centered">
-			<strong>Total de raças listadas:</strong> {{ racas|length }}
+			<strong>Total de raças encontradas:</strong> {{ racas.paginator.count }}
 		</p>
 	</div>
+
+	{% include 'components/pagination.html' with page_obj=racas query_string=query_string %}
 {% else %}
 	<article class="message is-warning">
 		<div class="message-body has-text-centered">
@@ -90,4 +118,22 @@
 		</div>
 	</article>
 {% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function openDeleteModal(racaId) {
+        const modal = document.getElementById(`delete-modal-${racaId}`);
+        if (modal) {
+            modal.classList.add('is-active');
+        }
+    }
+
+    function closeDeleteModal(racaId) {
+        const modal = document.getElementById(`delete-modal-${racaId}`);
+        if (modal) {
+            modal.classList.remove('is-active');
+        }
+    }
+</script>
 {% endblock %}

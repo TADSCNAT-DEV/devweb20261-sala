@@ -1,6 +1,7 @@
 from django.db import models
 from usuarios.models import Usuario
 from animais.models import Animal
+import datetime
 # Create your models here.
 
 STATUS_CHOICES =[('EM_ANALISE', 'Em Análise'),
@@ -23,6 +24,12 @@ class ProcessoAdocao(models.Model):
     adotante=models.ForeignKey(Usuario,on_delete=models.PROTECT,related_name='processos_adocao_adotante')
     avaliador=models.ForeignKey(Usuario,on_delete=models.PROTECT,related_name='processos_adocao_avaliador')
     comentarios_avaliadores=models.ManyToManyField(Usuario,through='Comentario',related_name='comentarios_avaliadores')
+
+    def atrasada(self):
+        if self.status == 'EM_ANALISE':
+            dias_em_analise = (datetime.date.today() - self.criadaem).days
+            return dias_em_analise > 7
+        return False
 
     def __str__(self):
         return f'{self.id}-{self.animal.nome}-{self.adotante.nome}-{self.avaliador.nome}'
