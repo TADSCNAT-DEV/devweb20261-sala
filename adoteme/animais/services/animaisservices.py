@@ -85,5 +85,8 @@ class AnimalService:
         return animal
     @staticmethod
     def excluir_animal(id):
-        animal = Animal.objects.get(id=id)
-        return animal.delete()
+        animal=AnimalService.obter_animal(id)
+        if animal:
+            return animal.delete()
+        else:
+            raise ValidationError("Animal com o id não existe")

@@ -4,6 +4,7 @@ from animais.models import Raca
 from animais.services.animaisservices import AnimalService
 from animais.services.baseanimaisservices import RacaService, TipoAnimalService
 from adocao.models import ProcessoAdocao
+from django.core.paginator import Paginator
 # Create your views here.
 
 
@@ -30,12 +31,21 @@ def index(request):
     elif disponibilidade == 'nao':
         disponivel = False
 
-    animais = AnimalService.buscar(
+    lista_animais = AnimalService.buscar(
         nome=nome or None,
         tipo=tipo or None,
         raca=raca or None,
         disponivel=disponivel,
     )
+
+    paginador=Paginator(lista_animais,3)
+    pagina = request.GET.get('page')
+    animais = paginador.get_page(pagina)
+
+    query_params = request.GET.copy()
+    query_params.pop('page', None)
+    query_string = query_params.urlencode()
+
 
     context = {
         'animais': animais,
@@ -45,6 +55,7 @@ def index(request):
         'filtro_nome': nome,
         'filtro_tipo': tipo,
         'filtro_raca': raca,
+        'query_string':query_string,
         'filtro_disponivel': disponibilidade,
         'total_animais': AnimalService.listar_animais().count(),
         'total_tipos': TipoAnimalService.listar_tipos_animais().count(),
