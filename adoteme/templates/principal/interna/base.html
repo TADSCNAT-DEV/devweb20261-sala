@@ -76,6 +76,14 @@
 							</span>
 						</a>
 					</li>
+					<li>
+						<a href="{% url 'principal:logout' %}" class="is-active">
+							<span class="icon-text">
+								<span class="icon"><i class="fas fa-right-from-bracket"></i></span>
+								<span>Sair</span>
+							</span>
+						</a>
+					</li>
 				</ul>
 			</aside>
 		</aside>
@@ -90,7 +98,11 @@
 					<div class="is-flex is-align-items-center">
 						<span class="tag is-info is-light is-medium">
 							<span class="icon"><i class="fas fa-user"></i></span>
-							<span>Usuario autenticado</span>
+							{% if user.is_authenticated %}
+								<span>{{ user.username }}</span>
+							{% else %}
+								<span>Usuario nao autenticado</span>
+							{% endif %}
 						</span>
 					</div>
 				</div>

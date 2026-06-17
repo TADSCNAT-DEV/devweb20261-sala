@@ -1,12 +1,14 @@
 from django.contrib import messages
 from django.shortcuts import render,redirect
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 from animais.models import Animal
 from animais.services.baseanimaisservices import RacaService, TipoAnimalService
 from animais.services.animaisservices import AnimalService
 from django.core.exceptions import ValidationError
 # Create your views here.
 
+@login_required
 def listar_animais(request):
     busca = request.GET.get('busca')
     if busca:
@@ -29,7 +31,7 @@ def listar_animais(request):
     }
     return render(request, 'animais/lista.html', context)
 
-
+@login_required
 def listar_tipos(request):
     busca = request.GET.get('busca')
     if busca:
@@ -52,6 +54,7 @@ def listar_tipos(request):
     }
     return render(request, 'animais/tipo/lista.html', context)
 
+@login_required
 def cadastrar_animal(request):
     if request.method == 'GET':
         racas = RacaService.listar_racas()
@@ -90,6 +93,8 @@ def cadastrar_animal(request):
             return render(request, 'animais/form.html', context)
         messages.success(request, 'Animal cadastrado com sucesso!')
         return redirect('animais:listar_animais')
+
+@login_required
 def atualizar_animal(request, id):
     if request.method == 'GET':
         animal = AnimalService.obter_animal(id)
@@ -132,6 +137,7 @@ def atualizar_animal(request, id):
             return render(request, 'animais/form.html', context)
         messages.success(request, 'Animal atualizado com sucesso!')
         return redirect('animais:listar_animais')
+@login_required
 def excluir_animal(request, id):
     if request.method == 'POST':
         animal = AnimalService.obter_animal(id)
@@ -140,7 +146,7 @@ def excluir_animal(request, id):
         return redirect('animais:listar_animais')
     else:
         return redirect('animais:listar_animais')
-
+@login_required
 def cadastrar_tipo_animal(request):
     if request.method == 'GET':
         return render(request, 'animais/tipo/form.html')
@@ -156,6 +162,8 @@ def cadastrar_tipo_animal(request):
             return render(request, 'animais/tipo/form.html', context)
         messages.success(request, 'Tipo de animal cadastrado com sucesso!')
         return redirect('animais:listar_tipos')
+
+@login_required
 def atualizar_tipo_animal(request, id):
     if request.method == 'GET':
         tipo_animal = TipoAnimalService.obter_tipo_animal(id)
@@ -187,7 +195,7 @@ def excluir_tipo_animal(request, id):
     else:
         return redirect('animais:listar_tipos')
 
-
+@login_required
 def listar_racas(request):
     busca = request.GET.get('busca')
     if busca:
@@ -210,6 +218,7 @@ def listar_racas(request):
     }
     return render(request, 'animais/raca/lista.html', context)
 
+@login_required
 def cadastrar_raca(request):
     if request.method == 'GET':
         tipos_animais = TipoAnimalService.listar_tipos_animais()
@@ -232,7 +241,7 @@ def cadastrar_raca(request):
             return render(request, 'animais/raca/form.html', context)
         messages.success(request, 'Raça cadastrada com sucesso!')
         return redirect('animais:listar_racas')
-
+@login_required
 def atualizar_raca(request, id):
     if request.method == 'GET':
         raca = RacaService.obter_raca(id)
@@ -259,6 +268,7 @@ def atualizar_raca(request, id):
             return render(request, 'animais/raca/form.html', context)
         messages.success(request, 'Raça atualizada com sucesso!')
         return redirect('animais:listar_racas')
+@login_required
 def excluir_raca(request, id):
     if request.method == 'POST':
         raca = RacaService.obter_raca(id)

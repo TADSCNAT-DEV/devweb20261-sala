@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.contrib.auth import authenticate, login , logout
+from django.contrib.auth.decorators import login_required
 from animais.models import Animal
 from animais.models import Raca
 from animais.services.animaisservices import AnimalService
@@ -8,6 +10,28 @@ from django.core.paginator import Paginator
 # Create your views here.
 
 
+def login_view(request):
+    if request.user.is_authenticated:
+        return index_logado(request)
+    else:
+        if request.method == 'GET':
+            return render(request, 'principal/interna/login.html')
+        else:
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return index_logado(request)
+            else:
+                return render(request, 'principal/interna/login.html', {'error': 'Usuário ou senha inválidos.'})
+
+def logout_view(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return index(request)
+
+@login_required
 def index_logado(request):
     context = {
         'total_animais':AnimalService.listar_animais().count(),
