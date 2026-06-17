@@ -45,6 +45,14 @@ class UsuarioService:
             return None
 
     @staticmethod
+    def consultar_tipo_usuario(username):
+        try:
+            usuario = Usuario.objects.get(username=username)
+            return usuario.tipo_usuario
+        except Usuario.DoesNotExist:
+            return None
+
+    @staticmethod
     def buscar_usuarios_por_nome(nome=None, tipo_usuario=None):
         usuarios = Usuario.objects.all()
         if nome:

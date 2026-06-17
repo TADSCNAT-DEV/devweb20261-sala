@@ -1,9 +1,10 @@
 from django.contrib import messages
 from django.shortcuts import render,redirect
 from django.core.paginator import Paginator
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
 from animais.models import Animal
 from animais.services.baseanimaisservices import RacaService, TipoAnimalService
+from principal.utils import Utils
 from animais.services.animaisservices import AnimalService
 from django.core.exceptions import ValidationError
 # Create your views here.
@@ -55,6 +56,7 @@ def listar_tipos(request):
     return render(request, 'animais/tipo/lista.html', context)
 
 @login_required
+@user_passes_test(Utils.check_abrigo)
 def cadastrar_animal(request):
     if request.method == 'GET':
         racas = RacaService.listar_racas()
@@ -95,6 +97,7 @@ def cadastrar_animal(request):
         return redirect('animais:listar_animais')
 
 @login_required
+@user_passes_test(Utils.check_abrigo)
 def atualizar_animal(request, id):
     if request.method == 'GET':
         animal = AnimalService.obter_animal(id)
@@ -138,6 +141,7 @@ def atualizar_animal(request, id):
         messages.success(request, 'Animal atualizado com sucesso!')
         return redirect('animais:listar_animais')
 @login_required
+@user_passes_test(Utils.check_abrigo)
 def excluir_animal(request, id):
     if request.method == 'POST':
         animal = AnimalService.obter_animal(id)
