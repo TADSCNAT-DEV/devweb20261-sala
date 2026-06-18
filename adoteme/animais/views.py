@@ -151,6 +151,7 @@ def excluir_animal(request, id):
     else:
         return redirect('animais:listar_animais')
 @login_required
+@user_passes_test(Utils.check_abrigo_group)
 def cadastrar_tipo_animal(request):
     if request.method == 'GET':
         return render(request, 'animais/tipo/form.html')

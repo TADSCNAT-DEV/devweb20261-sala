@@ -6,9 +6,14 @@ class Utils:
         if tipo == 'ADOTANTE':
             return True
         return False
+    
     @staticmethod
     def check_abrigo(user):
         tipo=UsuarioService.consultar_tipo_usuario(user.username)
         if tipo == 'ABRIGO':
             return True
         return False
+    
+    @staticmethod
+    def check_abrigo_group(user):
+        return user.groups.filter(name='ABRIGO').exists()
