@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from animais.models import Animal
 from animais.services.baseanimaisservices import RacaService, TipoAnimalService
 from principal.utils import Utils
+from usuarios.services import UsuarioService
 from animais.services.animaisservices import AnimalService
 from django.core.exceptions import ValidationError
 # Create your views here.
@@ -25,10 +26,13 @@ def listar_animais(request):
     query_params.pop('page', None)
     query_string = query_params.urlencode()
 
+    tipo_usuario=UsuarioService.consultar_tipo_usuario(request.user.username)
+
     context = {
         'animais': animais,
         'busca': busca,
         'query_string': query_string,
+        'tipo_usuario':tipo_usuario
     }
     return render(request, 'animais/lista.html', context)
 

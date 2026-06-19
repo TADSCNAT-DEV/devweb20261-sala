@@ -9,10 +9,12 @@
         <h1 class="title is-4 mb-1">Animais para adocao</h1>
         <p class="subtitle is-6 mb-0">Gestão de animais cadastrados</p>
     </div>
-    <a href="{% url 'animais:cadastrar_animal' %}" class="button is-success">
-        <span class="icon"><i class="fas fa-plus"></i></span>
-        <span>Novo Animal</span>
-    </a>
+    {% if tipo_usuario is 'ABRIGO' %}
+        <a href="{% url 'animais:cadastrar_animal' %}" class="button is-success">
+            <span class="icon"><i class="fas fa-plus"></i></span>
+            <span>Novo Animal</span>
+        </a>
+    {% endif %}
 </div>
 
 <div class="box mb-5">
@@ -51,8 +53,10 @@
                     <th>Cor</th>
                     <th>Idade</th>
                     <th class="has-text-centered">Status</th>
-                    <th class="has-text-centered">Acoes</th>
-                </tr>
+                    {% if tipo_usuario is 'ABRIGO' %}
+                        <th class="has-text-centered">Acoes</th>
+                    {% endif %}
+                    </tr>
             </thead>
             <tbody>
                 {% for animal in animais %}
@@ -72,6 +76,7 @@
                             <span class="tag is-danger is-light">Indisponivel</span>
                         {% endif %}
                     </td>
+                    {% if tipo_usuario is 'ABRIGO' %}
                     <td class="has-text-centered">
                         <div class="buttons are-small is-centered">
                             <a href="{% url 'animais:atualizar_animal' animal.id %}" class="button is-warning is-light">
@@ -108,6 +113,7 @@
                             </div>
                         </div>
                     </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
