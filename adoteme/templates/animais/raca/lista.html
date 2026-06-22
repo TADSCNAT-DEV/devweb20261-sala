@@ -11,10 +11,14 @@
 		<h1 class="title is-4 mb-1">Raças de Animais</h1>
 		<p class="subtitle is-6 mb-0">Gestao das raças cadastradas no sistema</p>
 	</div>
-	<a href="{% url 'animais:cadastrar_raca' %}" class="button is-success">
-		<span class="icon"><i class="fas fa-plus"></i></span>
-		<span>Nova Raça</span>
-	</a>
+
+	{% if IS_ABRIGO %}
+
+		<a href="{% url 'animais:cadastrar_raca' %}" class="button is-success">
+			<span class="icon"><i class="fas fa-plus"></i></span>
+			<span>Nova Raça</span>
+		</a>
+	{% endif %}
 
 </div>
 
@@ -48,7 +52,9 @@
 					<th>ID</th>
 					<th>Nome da Raça</th>
 					<th class="has-text-centered">Tipo de Animal</th>
-					<th class="has-text-centered">Acoes</th>
+					{% if IS_ABRIGO %}
+						<th class="has-text-centered">Acoes</th>
+					{% endif %}
 				</tr>
 			</thead>
 			<tbody>
@@ -62,41 +68,43 @@
 						</span>
 					</td>
 					<td class="has-text-centered">{{ raca.tipo_animal.nome }}</td>
-					<td class="has-text-centered">
-						<div class="buttons are-small is-centered">
-							<a href="{% url 'animais:atualizar_raca' raca.id %}" class="button is-warning is-light">
-								<span class="icon"><i class="fas fa-edit"></i></span>
-								<span>Editar</span>
-							</a>
-							<button class="button is-danger is-light" onclick="openDeleteModal('{{ raca.id }}')">
-								<span class="icon"><i class="fas fa-trash"></i></span>
-								<span>Excluir</span>
-							</button>
-						</div>
-						 <div id="delete-modal-{{ raca.id }}" class="modal">
-                            <div class="modal-background" onclick="closeDeleteModal('{{ raca.id }}')"></div>
-                            <div class="modal-card">
-                                <header class="modal-card-head">
-                                    <p class="modal-card-title">Confirmar exclusao</p>
-                                    <button class="delete" aria-label="close" type="button" onclick="closeDeleteModal('{{ raca.id }}')"></button>
-                                </header>
-                                <section class="modal-card-body">
-                                    <p>
-                                        Deseja realmente excluir a raça
-                                        <strong>{{ raca.nome }}</strong>?
-                                    </p>
-                                    <p class="mt-2 has-text-grey-dark">Essa ação não podera ser desfeita.</p>
-                                </section>
-                                <footer class="modal-card-foot is-justify-content-flex-end">
-                                    <button class="button" type="button" onclick="closeDeleteModal('{{ raca.id }}')">Cancelar</button>
-                                    <form method="POST" action="{% url 'animais:excluir_raca' raca.id %}">
-                                        {% csrf_token %}
-                                        <button class="button is-danger" type="submit">Excluir</button>
-                                    </form>
-                                </footer>
-                            </div>
-                        </div>
-					</td>
+					{% if IS_ABRIGO %}
+						<td class="has-text-centered">
+							<div class="buttons are-small is-centered">
+								<a href="{% url 'animais:atualizar_raca' raca.id %}" class="button is-warning is-light">
+									<span class="icon"><i class="fas fa-edit"></i></span>
+									<span>Editar</span>
+								</a>
+								<button class="button is-danger is-light" onclick="openDeleteModal('{{ raca.id }}')">
+									<span class="icon"><i class="fas fa-trash"></i></span>
+									<span>Excluir</span>
+								</button>
+							</div>
+							<div id="delete-modal-{{ raca.id }}" class="modal">
+								<div class="modal-background" onclick="closeDeleteModal('{{ raca.id }}')"></div>
+								<div class="modal-card">
+									<header class="modal-card-head">
+										<p class="modal-card-title">Confirmar exclusao</p>
+										<button class="delete" aria-label="close" type="button" onclick="closeDeleteModal('{{ raca.id }}')"></button>
+									</header>
+									<section class="modal-card-body">
+										<p>
+											Deseja realmente excluir a raça
+											<strong>{{ raca.nome }}</strong>?
+										</p>
+										<p class="mt-2 has-text-grey-dark">Essa ação não podera ser desfeita.</p>
+									</section>
+									<footer class="modal-card-foot is-justify-content-flex-end">
+										<button class="button" type="button" onclick="closeDeleteModal('{{ raca.id }}')">Cancelar</button>
+										<form method="POST" action="{% url 'animais:excluir_raca' raca.id %}">
+											{% csrf_token %}
+											<button class="button is-danger" type="submit">Excluir</button>
+										</form>
+									</footer>
+								</div>
+							</div>
+						</td>
+						{% endif %}
 				</tr>
 				{% endfor %}
 			</tbody>
