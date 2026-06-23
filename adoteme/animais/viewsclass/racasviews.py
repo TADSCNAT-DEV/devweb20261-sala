@@ -5,8 +5,10 @@ from animais.services.baseanimaisservices import RacaService,TipoAnimalService
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.exceptions import ValidationError
+from django.contrib.auth.mixins import LoginRequiredMixin
+from principal.mixins import AbrigoMixin
 
-class RacaListView(ListView):
+class RacaListView(ListView,LoginRequiredMixin):
     template_name = 'animais/raca/lista.html'
     context_object_name = 'racas'
     paginate_by = 3
@@ -27,7 +29,7 @@ class RacaListView(ListView):
             queryset = RacaService.listar_racas()
         return queryset
 
-class RacaSalvarView(View):
+class RacaSalvarView(LoginRequiredMixin, AbrigoMixin, View):
     def post(self, request, *args, **kwargs):
         nome = request.POST.get('nome')
         tipo_animal_id = request.POST.get('tipo_animal_id')
@@ -49,7 +51,7 @@ class RacaSalvarView(View):
             'tipos_animais': tipos_animais,
         }
         return render(request, 'animais/raca/form.html', context)
-class RacaAtualizarView(View):
+class RacaAtualizarView(LoginRequiredMixin, AbrigoMixin, View):
     def post(self, request, *args, **kwargs):
         raca_id = kwargs.get('id')
         nome = request.POST.get('nome')
@@ -78,7 +80,7 @@ class RacaAtualizarView(View):
         }
         return render(request, 'animais/raca/form.html', context)
     
-class RacaExcluirView(View):
+class RacaExcluirView(LoginRequiredMixin, AbrigoMixin, View):
     def post(self, request, *args, **kwargs):
         raca_id = kwargs.get('id')
         RacaService.excluir_raca(raca_id)

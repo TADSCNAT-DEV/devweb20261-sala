@@ -254,4 +254,67 @@
 			color: #1f6f8b;
 		}
 
+		.error-shell {
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 1.5rem;
+		}
+
+		.error-card {
+			width: 100%;
+			max-width: 620px;
+			background: #fff;
+			border: 1px solid #e6edf3;
+			border-radius: 20px;
+			box-shadow: 0 18px 42px rgba(26, 37, 52, 0.12);
+			overflow: hidden;
+		}
+
+		.error-card-header {
+			padding: 1.75rem;
+			background: linear-gradient(165deg, #0f1b2a 0%, #142636 60%, #1e3348 100%);
+			color: #fff;
+		}
+
+		.error-code {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.45rem 0.9rem;
+			border-radius: 999px;
+			border: 1px solid rgba(255, 255, 255, 0.28);
+			background: rgba(255, 255, 255, 0.12);
+			font-weight: 800;
+			letter-spacing: 0.03em;
+		}
+
+		.error-card-body {
+			padding: 1.75rem;
+		}
+
+		.error-message {
+			color: var(--text-soft, #5f6b7a);
+		}
+
+		.error-actions {
+			margin-top: 1.5rem;
+			display: flex;
+			gap: 0.75rem;
+			flex-wrap: wrap;
+		}
+
+		.button.is-brand {
+			background: #1f6f8b;
+			border-color: transparent;
+			color: #fff;
+			font-weight: 700;
+		}
+
+		.button.is-brand:hover {
+			background: #245d88;
+			color: #fff;
+		}
+
 		
