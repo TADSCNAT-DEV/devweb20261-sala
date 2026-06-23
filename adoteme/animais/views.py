@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render,redirect
 from django.core.paginator import Paginator
-from django.contrib.auth.decorators import login_required,user_passes_test
+from django.contrib.auth.decorators import login_required,user_passes_test, permission_required
 from animais.models import Animal
 from animais.services.baseanimaisservices import RacaService, TipoAnimalService
 from principal.utils import Utils
@@ -37,6 +37,7 @@ def listar_animais(request):
     return render(request, 'animais/lista.html', context)
 
 @login_required
+@permission_required('animais.pode_visualizar_tipoanimal')
 def listar_tipos(request):
     busca = request.GET.get('busca')
     if busca:
@@ -173,6 +174,7 @@ def cadastrar_tipo_animal(request):
         return redirect('animais:listar_tipos')
 
 @login_required
+@permission_required('animais.change_tipoanimal')
 def atualizar_tipo_animal(request, id):
     if request.method == 'GET':
         tipo_animal = TipoAnimalService.obter_tipo_animal(id)

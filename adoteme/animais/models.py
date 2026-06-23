@@ -24,6 +24,9 @@ class TipoAnimal(models.Model):
     class Meta:
         verbose_name_plural = "Tipos de Animais"
         ordering = ['nome']
+        permissions=[
+            ('pode_visualizar_tipoanimal','Pode Visualizar Tipo de Animal')
+        ]
 
 class Raca(models.Model):
     nome = models.CharField(max_length=50)
