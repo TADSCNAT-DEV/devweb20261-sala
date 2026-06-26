@@ -5,7 +5,7 @@ from animais.services.animaisservices import AnimalService
 from animais.services.baseanimaisservices import RacaService, TipoAnimalService
 from adocao.models import ProcessoAdocao
 from django.core.paginator import Paginator
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 class PrincipalView(View):
     def get(self, request):
         nome = request.GET.get('nome', '').strip()
@@ -50,3 +50,16 @@ class PrincipalView(View):
             'total_adocoes': 0,
         }
         return render(request, 'principal/landing/index.html', context)
+
+class PrincipalLogadoView(LoginRequiredMixin,View):
+    def get(self,request, *args, **kwargs):
+        context = {
+        'total_animais':AnimalService.listar_animais().count(),
+        'total_racas': RacaService.listar_racas().count(),
+        'total_pedidos_adocao': 0,
+        'pedidos_em_analise': 0,
+        'animais_disponiveis': AnimalService.listar_animais(disponivel=True).count(),
+        'animais_indisponiveis': AnimalService.listar_animais(disponivel=False).count(),
+    }
+        return render(request, 'principal/interna/index.html', context)
+
