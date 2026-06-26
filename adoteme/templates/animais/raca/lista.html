@@ -112,11 +112,11 @@
 
 	<div class="notification is-info is-light mt-4 mb-0">
 		<p class="has-text-centered">
-			<strong>Total de raças encontradas:</strong> {{ racas.paginator.count }}
+			<strong>Total de raças encontradas:</strong> {{ racas|length|default:"0" }}
 		</p>
 	</div>
 
-	{% include 'components/pagination.html' with page_obj=racas query_string=query_string %}
+	{% include 'components/pagination.html' with query_string=query_string %}
 {% else %}
 	<article class="message is-warning">
 		<div class="message-body has-text-centered">
