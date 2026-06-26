@@ -23,9 +23,9 @@ class TipoAnimalListView(LoginRequiredMixin,ListView):
         context['query_string'] = query_params.urlencode()
         return context
     def get_queryset(self):
-        search_query = self.request.GET.get('busca', '')
-        if search_query:
-            queryset = TipoAnimalService.buscar_tipos_animais_por_nome(search_query)
+        busca = self.request.GET.get('busca', '')
+        if busca:
+            queryset = TipoAnimalService.buscar_tipos_animais_por_nome(busca)
         else:
             queryset = TipoAnimalService.listar_tipos_animais()
         return queryset
