@@ -1,0 +1,88 @@
+{% extends 'principal/landing/base_landing.html' %}
+
+{% block title %}Contato | Adote-me{% endblock %}
+
+{% block content %}
+<div class="columns is-variable is-6 is-vcentered">
+	<div class="column is-5">
+		<div class="soft-card p-5">
+			<p class="heading">Fale com a equipe</p>
+			<h2 class="title is-3 mb-3">
+				<span class="icon has-text-warning-dark"><i class="fas fa-envelope"></i></span>
+				<span>Envie sua mensagem</span>
+			</h2>
+			<p class="has-text-grey-dark mb-4">
+				Use o formulario abaixo para tirar duvidas sobre adocao, disponibilidade dos animais ou etapas do processo.
+			</p>
+
+			<div class="content has-text-grey-dark">
+				<p>
+					<strong>Atendimento:</strong><br>
+					Segunda a sexta, das 8h as 18h.
+				</p>
+				<p>
+					<strong>Resposta media:</strong><br>
+					Ate 2 dias uteis.
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="column is-7">
+		<div class="soft-card p-5">
+			<h3 class="title is-4 mb-4">Formulario de contato</h3>
+
+			<form method="post">
+				{% csrf_token %}
+
+                				{% if form.non_field_errors %}
+					<article class="message is-danger is-light mb-4">
+						<div class="message-body">
+							{{ form.non_field_errors }}
+						</div>
+					</article>
+				{% endif %}
+
+				<div class="field mb-4">
+					<label class="label" for="{{ form.titulo.id_for_label }}">{{ form.titulo.label }}</label>
+					<div class="control">
+						{{ form.titulo }}
+					</div>
+					{% for erro in form.titulo.errors %}
+						<p class="help is-danger">{{ erro }}</p>
+					{% endfor %}
+				</div>
+
+				<div class="field mb-4">
+					<label class="label" for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+					<div class="control has-icons-left">
+						{{ form.email }}
+						<span class="icon is-small is-left"><i class="fas fa-at"></i></span>
+					</div>
+					{% for erro in form.email.errors %}
+						<p class="help is-danger">{{ erro }}</p>
+					{% endfor %}
+				</div>
+
+				<div class="field mb-5">
+					<label class="label" for="{{ form.mensagem.id_for_label }}">{{ form.mensagem.label }}</label>
+					<div class="control">
+						{{ form.mensagem }}
+					</div>
+					{% for erro in form.mensagem.errors %}
+						<p class="help is-danger">{{ erro }}</p>
+					{% endfor %}
+				</div>
+
+				<div class="is-flex is-justify-content-space-between is-align-items-center is-flex-wrap-wrap" style="gap: 1rem;">
+					<p class="has-text-grey mb-0">Preencha todos os campos para que possamos retornar seu contato.</p>
+					<button type="submit" class="button is-warning has-text-weight-semibold">
+						<span class="icon"><i class="fas fa-paper-plane"></i></span>
+						<span>Enviar mensagem</span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

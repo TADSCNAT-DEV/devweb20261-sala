@@ -22,25 +22,26 @@
 	{% csrf_token %}
 
 	<div class="box">
+		{% if form.non_field_errors %}
+			<article class="message is-danger is-light mb-5">
+				<div class="message-body">
+					{% for erro in form.non_field_errors %}
+						<p>{{ erro }}</p>
+					{% endfor %}
+				</div>
+			</article>
+		{% endif %}
+
 		<div class="columns is-multiline">
 			<div class="column is-12-tablet is-8-desktop">
 				<div class="field">
-					<label class="label">Nome</label>
+					<label class="label" for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
 					<div class="control">
-						<input
-							class="input"
-							type="text"
-							name="nome"
-							placeholder="Ex: Cachorro"
-							value="{% if dados %}{{ dados.nome|default:'' }}{% else %}{{ tipo_animal.nome|default:'' }}{% endif %}"
-							required
-						>
+						{{ form.nome }}
 					</div>
-					{% if erros.nome %}
-						{% for erro in erros.nome %}
-							<p class="help is-danger">{{ erro }}</p>
-						{% endfor %}
-					{% endif %}
+					{% for erro in form.nome.errors %}
+						<p class="help is-danger">{{ erro }}</p>
+					{% endfor %}
 				</div>
 			</div>
 

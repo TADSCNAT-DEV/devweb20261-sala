@@ -6,6 +6,7 @@ from animais.services.baseanimaisservices import RacaService, TipoAnimalService
 from adocao.models import ProcessoAdocao
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
+from principal.forms import ContatoForm
 class PrincipalView(View):
     def get(self, request):
         nome = request.GET.get('nome', '').strip()
@@ -63,3 +64,15 @@ class PrincipalLogadoView(LoginRequiredMixin,View):
     }
         return render(request, 'principal/interna/index.html', context)
 
+class ContatoView(View):
+    def get(self, request):
+        form = ContatoForm()
+        return render(request, 'principal/landing/contato.html', {'form': form})
+
+    def post(self, request):
+        form = ContatoForm(request.POST)
+        if form.is_valid():
+            # Aqui você pode processar os dados do formulário, como enviar um e-mail ou salvar no banco de dados
+            return render(request, 'principal/landing/contato_sucesso.html', {'form': form})
+        else:
+            return render(request, 'principal/landing/contato.html', {'form': form})

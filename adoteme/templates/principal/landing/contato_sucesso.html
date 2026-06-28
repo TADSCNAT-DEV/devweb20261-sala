@@ -1,0 +1,52 @@
+{% extends 'principal/landing/base_landing.html' %}
+
+{% block title %}Contato Enviado | Adote-me{% endblock %}
+
+{% block content %}
+<div class="columns is-variable is-6 is-vcentered">
+	<div class="column is-5">
+		<div class="soft-card p-5">
+			<p class="heading">Mensagem registrada</p>
+			<h2 class="title is-3 mb-3">
+				<span class="icon has-text-success"><i class="fas fa-circle-check"></i></span>
+				<span>Contato enviado com sucesso</span>
+			</h2>
+			<p class="has-text-grey-dark mb-4">
+				Recebemos sua mensagem e nossa equipe fara o retorno usando o e-mail informado no formulario.
+			</p>
+
+			<article class="message is-success is-light mb-0">
+				<div class="message-body">
+					Obrigado por entrar em contato com o Adote-me.
+				</div>
+			</article>
+		</div>
+	</div>
+
+	<div class="column is-7">
+		<div class="soft-card p-5">
+			<h3 class="title is-4 mb-4">Dados enviados</h3>
+
+			<div class="content mb-5">
+				<p><strong>Titulo:</strong></p>
+				<p>{{ titulo|default:form.titulo.value|default:'-' }}</p>
+
+				<p><strong>E-mail:</strong></p>
+				<p>{{ email|default:form.email.value|default:'-' }}</p>
+
+				<p><strong>Mensagem:</strong></p>
+				<div class="box has-background-white-ter">
+					{{ mensagem|default:form.mensagem.value|default:'-'|linebreaksbr }}
+				</div>
+			</div>
+
+			<div class="buttons">
+				<a href="{% url 'principal:index' %}" class="button is-warning has-text-weight-semibold">
+					<span class="icon"><i class="fas fa-house"></i></span>
+					<span>Voltar para a pagina inicial</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
