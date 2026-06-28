@@ -8,6 +8,8 @@ class UsuarioService:
         try:
             usuario.full_clean()  # Valida os dados do usuário
             usuario.save()  # Salva o usuário no banco de dados
+            perfil = Perfil(usuario=usuario)
+            perfil.save()  # Salva o perfil no banco de dados
         except ValidationError as e:
             raise e
         return usuario
@@ -21,7 +23,7 @@ class UsuarioService:
         if nome is not None:
             usuario.nome = nome
         if password is not None:
-            usuario.set_password(password)  # Hash da senha
+            usuario.password = password
         try:
             usuario.full_clean()  # Valida os dados do usuário
             usuario.save()  # Salva as alterações no banco de dados
@@ -74,7 +76,7 @@ class UsuarioService:
             perfil=Perfil(usuario=usuario)
         if comprovante_endereco:
             perfil.comprovante_endereco = comprovante_endereco
-        if bio is not None:
+        if bio:
             perfil.bio = bio
         if avatar:
             perfil.avatar = avatar

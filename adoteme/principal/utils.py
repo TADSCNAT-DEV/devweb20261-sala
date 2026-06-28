@@ -35,5 +35,6 @@ def adoteme_context(request):
         context = {
             'IS_ADOTANTE': Utils.check_adotante(request.user),
             'IS_ABRIGO': Utils.check_abrigo(request.user),
+            'USUARIO': UsuarioService.obter_usuario(request.user.id) if request.user.is_authenticated else None,
         }
         return context

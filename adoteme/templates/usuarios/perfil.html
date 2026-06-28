@@ -1,0 +1,114 @@
+{% extends 'principal/interna/base.html' %}
+
+{% block title %}Meu Perfil - Adote-me{% endblock %}
+{% block page_title %}Meu Perfil{% endblock %}
+
+{% block content %}
+<div class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+	<div>
+		<h1 class="title is-4 mb-1">Editar perfil</h1>
+		<p class="subtitle is-6 mb-0">Atualize seus dados de acesso e informações de perfil.</p>
+	</div>
+    <div class="box mb-5 has-text-centered">
+		<p class="heading mb-3">Avatar atual</p>
+		<figure class="image is-128x128 is-inline-block">
+			{% if USUARIO and USUARIO.perfil.avatar %}
+				<img class="is-rounded" src="{{ USUARIO.perfil.avatar.url }}" alt="Avatar de {{ USUARIO.nome }}">
+			{% else %}
+				<img class="is-rounded" src="https://via.placeholder.com/256x256?text=Avatar" alt="Avatar padrão">
+			{% endif %}
+		</figure>
+	</div>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+
+	
+
+	{% if form.non_field_errors %}
+		<article class="message is-danger is-light mb-5">
+			<div class="message-body">
+				{% for erro in form.non_field_errors %}
+					<p>{{ erro }}</p>
+				{% endfor %}
+			</div>
+		</article>
+	{% endif %}
+
+	<div class="box">
+		<div class="columns is-multiline">
+			<div class="column is-6">
+				<div class="field">
+					<label class="label" for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
+					<div class="control">{{ form.nome }}</div>
+					{% for erro in form.nome.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+				</div>
+			</div>
+
+			<div class="column is-6">
+				<div class="field">
+					<label class="label" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+					<div class="control">{{ form.username }}</div>
+					{% for erro in form.username.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+				</div>
+			</div>
+
+            <div class="column is-4">
+				<div class="field">
+					<label class="label" for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+					<div class="control">{{ form.password }}</div>
+					{% for erro in form.password.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+				</div>
+			</div>
+
+			<div class="column is-4">
+				<div class="field">
+					<label class="label" for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+					<div class="control">{{ form.email }}</div>
+					{% for erro in form.email.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+				</div>
+			</div>
+
+			<div class="column is-4">
+				<div class="field">
+					<label class="label" for="{{ form.cpf.id_for_label }}">{{ form.cpf.label }}</label>
+					<div class="control">{{ form.cpf }}</div>
+					{% for erro in form.cpf.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+				</div>
+			</div>
+
+			<div class="column is-12">
+				<div class="field">
+					<label class="label" for="{{ form.bio.id_for_label }}">{{ form.bio.label }}</label>
+					<div class="control">{{ form.bio }}</div>
+					{% for erro in form.bio.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+				</div>
+			</div>
+
+			<div class="column is-6">
+				<div class="field">
+					<label class="label" for="{{ form.avatar.id_for_label }}">{{ form.avatar.label }}</label>
+					<div class="control">{{ form.avatar }}</div>
+					{% for erro in form.avatar.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+				</div>
+			</div>
+
+			<div class="column is-6">
+				<div class="field">
+					<label class="label" for="{{ form.comprovante_endereco.id_for_label }}">{{ form.comprovante_endereco.label }}</label>
+					<div class="control">{{ form.comprovante_endereco }}</div>
+					{% for erro in form.comprovante_endereco.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="is-flex is-justify-content-flex-end" style="gap: 0.75rem;">
+		<button class="button is-success" type="submit">
+			<span class="icon"><i class="fas fa-floppy-disk"></i></span>
+			<span>Salvar alterações</span>
+		</button>
+	</div>
+</form>
+{% endblock %}

@@ -8,8 +8,8 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" integrity="" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="" crossorigin="anonymous">
 	<link rel="stylesheet" href="{% static 'css/base.css' %}">
 	<style>
         @media (max-width: 768px) {
@@ -61,17 +61,17 @@
 					<form method="post" action="">
 						{% csrf_token %}
 						<div class="field mb-4">
-							<label class="label">Usuário</label>
+							<label class="label" for="login-username">Usuário</label>
 							<div class="control has-icons-left">
-								<input class="input" type="text" name="username" placeholder="Seu usuário" required autofocus>
+								<input class="input" id="login-username" type="text" name="username" placeholder="Seu usuário" required autofocus>
 								<span class="icon is-small is-left"><i class="fas fa-user"></i></span>
 							</div>
 						</div>
 
 						<div class="field mb-5">
-							<label class="label">Senha</label>
+							<label class="label" for="login-password">Senha</label>
 							<div class="control has-icons-left">
-								<input class="input" type="password" name="password" placeholder="Sua senha" required>
+								<input class="input" id="login-password" type="password" name="password" placeholder="Sua senha" required>
 								<span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
 							</div>
 						</div>
@@ -81,6 +81,13 @@
 								<span class="icon"><i class="fas fa-right-to-bracket"></i></span>
 								<span>Entrar</span>
 							</button>
+						</div>
+
+						<div class="field mb-4">
+							<a href="{% url 'usuarios:autoregistro' %}" class="button is-light is-fullwidth is-medium has-text-weight-semibold">
+								<span class="icon"><i class="fas fa-user-plus"></i></span>
+								<span>Criar conta de adotante</span>
+							</a>
 						</div>
 
 						<div class="has-text-centered">

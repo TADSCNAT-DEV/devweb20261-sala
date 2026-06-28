@@ -38,10 +38,11 @@ class Usuario(User):
             erros['email'] = 'O email já está em uso por outro usuário.'
         if Usuario.objects.filter(username=self.username).exclude(id=self.id).exists():
             erros['username'] = 'O nome de usuário já está em uso por outro usuário.'
-        if self.password and len(self.password) < 8:
-            erros['password'] = 'A senha deve ter pelo menos 8 caracteres.'
-        else:
-            self.set_password(self.password)  # Hash da senha
+        if self.password:
+            if len(self.password) < 8:
+                erros['password'] = 'A senha deve ter pelo menos 8 caracteres.'
+            elif not self.password.startswith(('pbkdf2_', 'argon2$', 'bcrypt$', 'scrypt$')):
+                self.set_password(self.password)  # Hash da senha
         return erros
 
     def __str__(self):

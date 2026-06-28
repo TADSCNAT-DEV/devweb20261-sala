@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Cadastro de Adotante | Adote-me</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css" integrity="" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="" crossorigin="anonymous">
+	<link rel="stylesheet" href="{% static 'css/base.css' %}">
+	<style>
+		@media (max-width: 768px) {
+			.login-panel,
+			.login-aside {
+				padding: 1.5rem;
+			}
+
+			.login-form-card {
+				padding: 1.5rem;
+			}
+		}
+	</style>
+</head>
+<body>
+	<section class="login-page">
+		<div class="login-shell columns is-gapless is-vcentered">
+			<div class="column is-5-desktop login-aside">
+				<div class="login-badge mb-5">
+					<span class="icon"><i class="fas fa-paw"></i></span>
+					<span>Adote-me</span>
+				</div>
+				<h1 class="title is-2 has-text-white mb-3">Crie sua conta de adotante</h1>
+				<p class="subtitle is-6 has-text-grey-lighter mb-5">
+					Cadastre-se para acompanhar animais disponiveis e iniciar seu processo de adocao.
+				</p>
+				<div class="login-highlight">
+					<p class="heading has-text-grey-lighter mb-2">Perfil adotante</p>
+					<p class="has-text-white-ter">
+						O cadastro cria sua conta com acesso de adotante e mantém o mesmo padrão visual da area interna.
+					</p>
+				</div>
+			</div>
+
+			<div class="column login-panel">
+				<div class="login-form-card">
+					<div class="mb-5">
+						<p class="heading has-text-grey mb-2">Novo usuário</p>
+						<h2 class="title is-4 mb-2">Autoregistro</h2>
+						<p class="has-text-grey-dark">Preencha os dados abaixo para criar sua conta.</p>
+					</div>
+
+					{% if messages %}
+						{% for message in messages %}
+							{% if 'success' in message.tags %}
+								<div class="notification is-success is-light mb-4">{{ message }}</div>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+
+					<form method="post" action="">
+						{% csrf_token %}
+
+						{% if form.non_field_errors %}
+							<article class="message is-danger is-light mb-4">
+								<div class="message-body">
+									{% for erro in form.non_field_errors %}
+										<p>{{ erro }}</p>
+									{% endfor %}
+								</div>
+							</article>
+						{% endif %}
+
+						<div class="columns is-multiline">
+							<div class="column is-6">
+								<div class="field mb-4">
+									<label class="label" for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
+									<div class="control">{{ form.nome }}</div>
+									{% for erro in form.nome.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+								</div>
+							</div>
+							<div class="column is-6">
+								<div class="field mb-4">
+									<label class="label" for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+									<div class="control">{{ form.username }}</div>
+									{% for erro in form.username.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+								</div>
+							</div>
+							<div class="column is-6">
+								<div class="field mb-4">
+									<label class="label" for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+									<div class="control">{{ form.email }}</div>
+									{% for erro in form.email.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+								</div>
+							</div>
+							<div class="column is-6">
+								<div class="field mb-4">
+									<label class="label" for="{{ form.cpf.id_for_label }}">{{ form.cpf.label }}</label>
+									<div class="control">{{ form.cpf }}</div>
+									{% for erro in form.cpf.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+								</div>
+							</div>
+							<div class="column is-6">
+								<div class="field mb-4">
+									<label class="label" for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+									<div class="control">{{ form.password }}</div>
+									{% for erro in form.password.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+								</div>
+							</div>
+							<div class="column is-6">
+								<div class="field mb-4">
+									<label class="label" for="{{ form.password_confirm.id_for_label }}">{{ form.password_confirm.label }}</label>
+									<div class="control">{{ form.password_confirm }}</div>
+									{% for erro in form.password_confirm.errors %}<p class="help is-danger">{{ erro }}</p>{% endfor %}
+								</div>
+							</div>
+						</div>
+
+						<div class="field mb-4">
+							<button class="button is-info is-fullwidth is-medium has-text-weight-semibold" type="submit">
+								<span class="icon"><i class="fas fa-user-plus"></i></span>
+								<span>Criar conta</span>
+							</button>
+						</div>
+
+						<div class="has-text-centered">
+							<a href="{% url 'principal:login' %}" class="login-footer-link">
+								<span class="icon"><i class="fas fa-arrow-left"></i></span>
+								<span>Voltar para o login</span>
+							</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
