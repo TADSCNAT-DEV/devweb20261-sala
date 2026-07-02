@@ -5,5 +5,7 @@ class TipoAnimalForm(forms.Form):
                            widget=forms.TextInput(attrs={'class': 'input', 'placeholder': 'Nome do tipo de animal'}))
     
     def clean_nome(self):
-        if 'xxx' in self.cleaned_data['nome'].lower():
+        nome = self.cleaned_data['nome']
+        if 'xxx' in nome.lower():
             raise forms.ValidationError('Nome contém conteúdo inapropriado.')
+        return nome
