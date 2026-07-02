@@ -1,5 +1,5 @@
 databases:
-  - name: adoteme
+  - name: adotemedb
     plan: free
     databaseName: adotemedb
     user: adoteme
