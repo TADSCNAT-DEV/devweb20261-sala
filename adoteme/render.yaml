@@ -1,7 +1,7 @@
 databases:
-  - name: adotemedb
+  - name: adoteme
     plan: free
-    databaseName: adoteme
+    databaseName: adotemedb
     user: adoteme
 
 services:
