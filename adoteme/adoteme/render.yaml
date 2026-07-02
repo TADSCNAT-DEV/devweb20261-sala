@@ -1,0 +1,28 @@
+databases:
+  - name: adotemedb
+    plan: free
+    databaseName: adoteme
+    user: adoteme
+
+services:
+  - type: web
+    name: adoteme
+    env: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: 'python -m gunicorn adoteme.asgi:application -k uvicorn.workers.UvicornWorker' 
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: DJANGO_SETTINGS_MODULE
+        value: adoteme.settings.production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: DATABASE_URL
+        fromDatabase:
+          name: adotemedb
+          property: connectionString

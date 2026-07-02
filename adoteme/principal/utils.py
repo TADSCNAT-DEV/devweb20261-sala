@@ -1,4 +1,7 @@
 from usuarios.services import UsuarioService
+
+
+
 class Utils:
     @staticmethod
     def check_adotante(user):
@@ -13,6 +16,7 @@ class Utils:
         if tipo == 'ABRIGO':
             return True
         return False
+    
     
     @staticmethod
     def check_abrigo_group(user):

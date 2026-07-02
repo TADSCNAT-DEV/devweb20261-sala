@@ -61,7 +61,7 @@ class PrincipalLogadoView(LoginRequiredMixin,View):
         'pedidos_em_analise': 0,
         'animais_disponiveis': AnimalService.listar_animais(disponivel=True).count(),
         'animais_indisponiveis': AnimalService.listar_animais(disponivel=False).count(),
-    }
+        }
         return render(request, 'principal/interna/index.html', context)
 
 class ContatoView(View):

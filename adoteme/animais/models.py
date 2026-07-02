@@ -2,6 +2,8 @@ from django.db import models
 from django.core.exceptions import ValidationError
 # Create your models here.
 from datetime import date
+from principal.cloudinary import get_image_field
+
 class TipoAnimal(models.Model):
     nome = models.CharField(max_length=50)
 
@@ -62,7 +64,7 @@ class Animal(models.Model):
     raca = models.ForeignKey(Raca, on_delete=models.CASCADE,related_name='animais')
     descricao = models.TextField(blank=True,null=True)
     disponivel = models.BooleanField(default=True,null=True)
-    foto=models.ImageField(upload_to='fotos_animais/', blank=True, null=True)
+    foto=get_image_field(upload_to='animais/', blank=True, null=True)
 
     def clean(self):
         erros = {}

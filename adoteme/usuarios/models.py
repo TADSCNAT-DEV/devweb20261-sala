@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from principal.cloudinary import get_image_field,get_file_field
+
 # Create your models here.
 
 class Usuario(User):
@@ -49,9 +51,9 @@ class Usuario(User):
         return self.nome
 class Perfil(models.Model):
     usuario = models.OneToOneField(Usuario, on_delete=models.CASCADE, related_name='perfil')
-    comprovante_endereco = models.FileField(upload_to='usuarios/comprovantes_endereco/', blank=True, null=True)
+    comprovante_endereco = get_file_field(upload_to='usuarios/comprovantes_endereco/', blank=True, null=True)
     bio=models.TextField(blank=True, null=True)
-    avatar=models.ImageField(upload_to='usuarios/avatars/', blank=True, null=True)
+    avatar=get_image_field(upload_to='usuarios/avatars/', blank=True, null=True)
 
     def __str__(self):
         return f"Perfil de {self.usuario.nome}"
